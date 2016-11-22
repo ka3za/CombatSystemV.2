@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Hello : MonoBehaviour {
+public class Bow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -12,4 +12,9 @@ public class Hello : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void Attack(int agility)
+    {
+
+    }
 }
