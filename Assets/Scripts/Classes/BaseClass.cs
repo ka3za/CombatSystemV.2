@@ -3,6 +3,9 @@ using System.Collections;
 
 public class BaseClass {
 
+    public enum ClassType { Hunter, Mage, Tank}
+
+    private ClassType theClassType;
     private int stamina;
     private int strength;
     private int intellect;
@@ -13,6 +16,12 @@ public class BaseClass {
     private float currentHealth;
     private int currentEnergy;
     private int maxEnergy;
+
+    public ClassType TheClassType
+    {
+        get { return theClassType; }
+        set { theClassType = value; }
+    }
 
     public int Stamina
     {
@@ -49,6 +58,17 @@ public class BaseClass {
         get { return movementSpeed; }
         set { movementSpeed = value; }
     }
+    public float Health
+    {
+        get { return Health; }
+        set { Health = value; }
+    }
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        set { currentHealth = value; }
+    }
+
 
     public int CurrentEnergy
     {

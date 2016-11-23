@@ -26,19 +26,33 @@ public class Player : Entity {
 	
 	}
 
-    public void ChangeClass(string className)
-    {
-
-    }
 
     public void UpdateStats()
     {
-
+        if (CurrentClass != null)
+        {
+            healthText.text = "Health : " + CurrentClass.CurrentHealth + " / " + CurrentClass.Health;
+            switch (CurrentClass.TheClassType)
+            {
+                case BaseClass.ClassType.Hunter:
+                    energySourceText.text = "Energy : " + CurrentClass.CurrentEnergy + " / " + CurrentClass.MaxEnergy;
+                    break;
+                case BaseClass.ClassType.Mage:
+                    energySourceText.text = "Mana : " + CurrentClass.CurrentEnergy + " / " + CurrentClass.MaxEnergy;
+                    break;
+                case BaseClass.ClassType.Tank:
+                    energySourceText.text = "Rage : " + CurrentClass.CurrentEnergy + " / " + CurrentClass.MaxEnergy;
+                    break;
+                default:
+                    break;
+            }
+            
+        }
     }
 
     private void RealTimeMovement()
     {
-
+        playerCam.GetComponent<Transform>().position = new Vector3(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y, -10);
     }
 
     private void TurnBasedMovement()

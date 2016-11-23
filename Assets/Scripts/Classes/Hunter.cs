@@ -5,6 +5,6 @@ public class Hunter : BaseClass {
 
 	public Hunter()
     {
-
+        TheClassType = ClassType.Hunter;
     }
 }

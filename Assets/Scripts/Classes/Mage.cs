@@ -5,6 +5,7 @@ public class Mage : BaseClass {
 
 	public Mage()
     {
+        TheClassType = ClassType.Mage;
 
     }
 }

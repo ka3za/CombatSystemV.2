@@ -5,6 +5,7 @@ public class Tank : BaseClass {
 
 	public Tank()
     {
+        TheClassType = ClassType.Tank;
 
     }
 }
