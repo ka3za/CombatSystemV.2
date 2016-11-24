@@ -14,8 +14,8 @@ public class BaseClass {
     private int movementSpeed;
     private float health;
     private float currentHealth;
-    private int currentEnergy;
-    private int maxEnergy;
+    private float currentEnergy;
+    private float maxEnergy;
 
     public ClassType TheClassType
     {
@@ -60,8 +60,8 @@ public class BaseClass {
     }
     public float Health
     {
-        get { return Health; }
-        set { Health = value; }
+        get { return health; }
+        set { health = value; }
     }
     public float CurrentHealth
     {
@@ -70,13 +70,13 @@ public class BaseClass {
     }
 
 
-    public int CurrentEnergy
+    public float CurrentEnergy
     {
         get { return currentEnergy; }
         set { currentEnergy = value; }
     }
 
-    public int MaxEnergy
+    public float MaxEnergy
     {
         get { return maxEnergy; }
         set { maxEnergy = value; }

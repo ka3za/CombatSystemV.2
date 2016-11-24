@@ -40,7 +40,7 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    private void OnDeath()
+    public virtual void OnDeath()
     {
 
     }
