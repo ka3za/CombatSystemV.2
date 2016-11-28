@@ -133,7 +133,7 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(((Vector2.left / 2) + (Vector2.up / 2)) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.left + Vector2.up) / 2) * CurrentClass.MovementSpeed);
             Debug.Log("Direction: " + ((Vector2.left / 2) + (Vector2.up / 2)));
             switch (CurrentClass.TheClassType)
             {
@@ -154,7 +154,7 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(((Vector2.left / 2) + (Vector2.down / 2)) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.left + Vector2.down) / 2) * CurrentClass.MovementSpeed);
             Debug.Log("Direction: " + ((Vector2.left / 2) + (Vector2.down / 2)));
             switch (CurrentClass.TheClassType)
             {
@@ -196,7 +196,7 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(((Vector2.right / 2) + (Vector2.up / 2)) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.right + Vector2.up) / 2) * CurrentClass.MovementSpeed);
             Debug.Log("Direction: " + ((Vector2.right / 2) + (Vector2.up / 2)));
             switch (CurrentClass.TheClassType)
             {
@@ -217,7 +217,7 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(((Vector2.right / 2 + Vector2.down / 2)) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.right + Vector2.down) / 2) * CurrentClass.MovementSpeed);
             Debug.Log("Direction: " + ((Vector2.right / 2) + (Vector2.down / 2)));
             switch (CurrentClass.TheClassType)
             {
