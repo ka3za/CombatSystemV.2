@@ -113,6 +113,7 @@ public class Player : Entity {
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.left * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + Vector2.left);
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -132,7 +133,8 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.left + Vector2.up) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.left / 2) + (Vector2.up / 2)) * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + ((Vector2.left / 2) + (Vector2.up / 2)));
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -152,7 +154,8 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.left + Vector2.down) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.left / 2) + (Vector2.down / 2)) * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + ((Vector2.left / 2) + (Vector2.down / 2)));
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -173,6 +176,7 @@ public class Player : Entity {
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.right * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + Vector2.right);
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -192,7 +196,8 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.up) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.right / 2) + (Vector2.up / 2)) * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + ((Vector2.right / 2) + (Vector2.up / 2)));
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -212,7 +217,8 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.down) * CurrentClass.MovementSpeed);
+            GetComponent<Rigidbody2D>().AddForce(((Vector2.right / 2 + Vector2.down / 2)) * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + ((Vector2.right / 2) + (Vector2.down / 2)));
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -234,6 +240,8 @@ public class Player : Entity {
         if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * CurrentClass.MovementSpeed);
+
+            Debug.Log("Direction: " + Vector2.up);
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
@@ -254,6 +262,7 @@ public class Player : Entity {
         if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.down * CurrentClass.MovementSpeed);
+            Debug.Log("Direction: " + Vector2.down);
             switch (CurrentClass.TheClassType)
             {
                 case BaseClass.ClassType.Hunter:
