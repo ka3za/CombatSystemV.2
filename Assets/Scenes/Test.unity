@@ -466,9 +466,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 299619003}
   - 212: {fileID: 299619002}
+  - 114: {fileID: 299619004}
+  - 50: {fileID: 299619006}
+  - 61: {fileID: 299619005}
   m_Layer: 0
-  m_Name: PlayerSpriteSheet_55
-  m_TagString: Untagged
+  m_Name: EnemyOne
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -519,6 +522,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &299619004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 299619001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec93bee7fc5b224c90960c0d3494201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickEnemyClass: 0
+  combatRange: 2.5
+  meleeRange: 0.6
+--- !u!61 &299619005
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 299619001}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.32, y: 0.32}
+--- !u!50 &299619006
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 299619001}
+  m_UseAutoMass: 0
+  m_Mass: 50
+  m_LinearDrag: 6
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &310397451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,6 +1156,46 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 822288485}
+--- !u!1 &880474595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 880474597}
+  - 114: {fileID: 880474596}
+  m_Layer: 0
+  m_Name: ActionManager
+  m_TagString: ActionManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &880474596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 880474595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8944de99fbb814ca09b9fc882b498a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &880474597
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 880474595}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.18288945, y: 0.054656673, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
 --- !u!1 &897049740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1681,9 +1769,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 1476409222}
   - 212: {fileID: 1476409221}
+  - 114: {fileID: 1476409223}
+  - 50: {fileID: 1476409225}
+  - 61: {fileID: 1476409224}
   m_Layer: 0
-  m_Name: PlayerSpriteSheet_58
-  m_TagString: Untagged
+  m_Name: EnemyTwo
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1734,6 +1825,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &1476409223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1476409220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec93bee7fc5b224c90960c0d3494201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickEnemyClass: 1
+  combatRange: 2.5
+  meleeRange: 0.6
+--- !u!61 &1476409224
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1476409220}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.32, y: 0.32}
+--- !u!50 &1476409225
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1476409220}
+  m_UseAutoMass: 0
+  m_Mass: 50
+  m_LinearDrag: 6
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1714135073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,8 +1951,8 @@ GameObject:
   - 50: {fileID: 1741364969}
   - 61: {fileID: 1741364968}
   m_Layer: 0
-  m_Name: PlayerSpriteSheet_1
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1851,7 +1987,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1741364970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1883,6 +2019,8 @@ MonoBehaviour:
   energySourceText: {fileID: 1118477128}
   dropDown: {fileID: 1993205100}
   canvas: {fileID: 1340418142}
+  fireExplosionPrefab: {fileID: 1000010919675218, guid: f02798efe7192be45a303e52a8941578,
+    type: 2}
 --- !u!212 &1741364971
 SpriteRenderer:
   m_ObjectHideFlags: 0

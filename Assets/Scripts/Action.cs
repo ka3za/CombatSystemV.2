@@ -7,16 +7,68 @@ public class Action : MonoBehaviour {
 
     private DamageType dmgType;
 
+    private GameObject actionMan;
+
     private float dmg;
 
     private float cooldown;
 
+    private float abilityCooldown;
+
+    private float timeToDestroy;
+
     private float modifier;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    public DamageType DmgType
+    {
+        get { return dmgType; }
+        set { dmgType = value; }
+    }
+
+    public GameObject ActionMan
+    {
+        get { return actionMan; }
+        set { actionMan = value; }
+    }
+
+    public float Dmg
+    {
+        get { return dmg; }
+        set { dmg = value; }
+    }
+
+    public float Cooldown
+    {
+        get { return cooldown; }
+        set { cooldown = value; }
+    }
+    public float AbilityCooldown
+    {
+        get { return abilityCooldown; }
+        set { abilityCooldown = value; }
+    }
+
+    public float Modifier
+    {
+        get { return modifier; }
+        set { modifier = value; }
+    }
+    public float TimeToDestroy
+    {
+        get { return timeToDestroy; }
+        set { timeToDestroy = value; }
+    }
+
+    public virtual void UpdateAction(int PrimaryStat)
+    {
+
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {

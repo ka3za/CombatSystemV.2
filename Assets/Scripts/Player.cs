@@ -32,6 +32,11 @@ public class Player : Entity {
 
     private float diagonalNerf = 0.75f;
 
+
+    [SerializeField]
+    private GameObject fireExplosionPrefab;
+
+
     // Use this for initialization
     void Start () {
         dropDown.onValueChanged.AddListener(delegate
@@ -306,7 +311,22 @@ public class Player : Entity {
 
     private void UseAbility()
     {
-
+        switch (CurrentClass.TheClassType)
+        {
+            case BaseClass.ClassType.Hunter:
+                break;
+            case BaseClass.ClassType.Mage:
+                Vector3 tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                tempPos.z = 0.1f;
+                GameObject fireExplosionPrefabTemp = Instantiate(fireExplosionPrefab, tempPos, Quaternion.identity) as GameObject;
+                fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(CurrentClass.Intellect);
+                break;
+            case BaseClass.ClassType.Tank:
+                break;
+            default:
+                break;
+        }
+        
     }
 
     private void UpdateWeaponPosAndDir()
