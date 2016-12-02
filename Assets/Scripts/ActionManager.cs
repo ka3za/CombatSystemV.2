@@ -49,24 +49,54 @@ public class ActionManager : MonoBehaviour {
     {
         for (int i = 0; i < info.Count; i++)
         {
-            Debug.Log(info[i].ActionType);
-            //cooldowns + aftereffects
-            if(info[i].ActionType.GetType() == typeof(Ability))
+            switch (info[i].ActionType.DmgType)
+            {
+                case Action.DamageType.KNOCKBACK:
+                    info[i].Target.transform.GetComponent<Rigidbody2D>().AddForce((info[i].Target.transform.position - info[i].ActionType.AbilityPos).normalized * 50, ForceMode2D.Impulse);
+                    break;
+                case Action.DamageType.DOT:
+                    if(info[i].Target.tag == "Player")
+                    {
+                        info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg;
+                        info[i].Target.GetComponent<Player>().UpdateStats();
+                    }               
+                    break;
+                case Action.DamageType.SLOW:
+                    if (info[i].Target.tag == "Player")
+                    {
+                        info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = 50;
+                    }    
+                    break;
+                case Action.DamageType.STUN:
+                    //info[i].Target.GetComponent<Player>().markasstunned?
+                    break;
+                default:
+                    break;
+            }
+            
+            if (info[i].ActionType.IsAbility == true)
             {
                 Ability temp = (Ability)info[i].ActionType;
                 switch (temp.SecondDmgType)
                 {
                     case Action.DamageType.KNOCKBACK:
-                        Debug.Log("KNOCKBACK : " + info[i].Target.tag);
+                        info[i].Target.transform.GetComponent<Rigidbody2D>().AddForce((info[i].Target.transform.position - info[i].ActionType.AbilityPos).normalized * 50, ForceMode2D.Impulse);
                         break;
                     case Action.DamageType.DOT:
-                        Debug.Log("DOT : " + info[i].Target.tag);
+                        if(info[i].Target.tag == "Player")
+                        {
+                            info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg;
+                            info[i].Target.GetComponent<Player>().UpdateStats();
+                        }
                         break;
                     case Action.DamageType.SLOW:
-                        Debug.Log("SLOW : " + info[i].Target.tag);
+                        if (info[i].Target.tag == "Player")
+                        {
+                            info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = 50;
+                        }
                         break;
                     case Action.DamageType.STUN:
-                        Debug.Log("STUN : " + info[i].Target.tag);
+                        //info[i].Target.GetComponent<Player>().markasstunned?
                         break;
                     default:
                         break;
@@ -77,29 +107,21 @@ public class ActionManager : MonoBehaviour {
 
 
     public void Attacked(GameObject tempTarget, Action tempActionType)
-    {
-        switch (tempActionType.DmgType)
-        {
-            case Action.DamageType.KNOCKBACK:
-                //Debug.Log("KNOCKBACK : " + tempTarget.tag);
-                break;
-            case Action.DamageType.DOT:
-                //Debug.Log("DOT : " + tempTarget.tag);
-                break;
-            case Action.DamageType.SLOW:
-                //Debug.Log("SLOW : " + tempTarget.tag);
-                break;
-            case Action.DamageType.STUN:
-                //Debug.Log("STUN : " + tempTarget.tag);
-                break;
-            default:
-                break;
-        }
+    {       
         Information tempInfo = new Information();
-        tempInfo.ActionType = tempActionType;
+        //if((Ability)tempActionType.dmg == typeof(Ability))
+        //{
+            Ability tempAbility = new Ability();
+            tempAbility = (Ability)tempActionType;
+            Debug.Log("Check tempAbility : " + tempAbility.DmgType + "   " + tempAbility.SecondDmgType);
+            tempInfo.ActionType = tempAbility;
+       // }
+       // else
+       // {
+
+       // }
         tempInfo.Target = tempTarget;
-        Debug.Log("Attacked is working : " + tempActionType.Dmg);
+        //Check if ability is already on target
         info.Add(tempInfo);
-        Debug.Log("info object size : " + info.Count);
     }
 }

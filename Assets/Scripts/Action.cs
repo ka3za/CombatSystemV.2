@@ -19,6 +19,10 @@ public class Action : MonoBehaviour {
 
     private float modifier;
 
+    private Vector3 abilityPos;
+
+    private bool isAbility;
+
     public DamageType DmgType
     {
         get { return dmgType; }
@@ -57,6 +61,18 @@ public class Action : MonoBehaviour {
     {
         get { return timeToDestroy; }
         set { timeToDestroy = value; }
+    }
+
+    public Vector3 AbilityPos
+    {
+        get { return abilityPos; }
+        set { abilityPos = value; }
+    }
+
+    public bool IsAbility
+    {
+        get { return isAbility; }
+        set { isAbility = value; }
     }
 
     public virtual void UpdateAction(int PrimaryStat)

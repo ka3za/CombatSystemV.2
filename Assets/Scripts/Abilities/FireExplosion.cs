@@ -22,8 +22,10 @@ public class FireExplosion : Ability
         Cooldown = 5;
         AbilityCooldown = 3;
         Dmg = 3 * PrimaryStat;
-        DmgType = DamageType.KNOCKBACK;
-        SecondDmgType = DamageType.DOT;
+        DmgType = DamageType.DOT;
+        SecondDmgType = DamageType.KNOCKBACK;
+        AbilityPos = transform.position;
+        IsAbility = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)
