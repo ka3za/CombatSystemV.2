@@ -74,4 +74,16 @@ public class Action : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    //public void AttachToParrent(GameObject newParrent)
+    //{
+    //    transform.parent = newParrent.transform;
+    //    Debug.Log(newParrent.name + " is now parrent of " + name);
+    //}
+
+    //public void DetachFromParrent(GameObject exParrent)
+    //{
+    //    transform.parent = null;
+    //    Debug.Log(exParrent.name + " is no longer the parrent of " + name);
+    //}
 }
