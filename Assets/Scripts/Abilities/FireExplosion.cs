@@ -21,9 +21,13 @@ public class FireExplosion : Ability
         TimeToDestroy = 4;
         Cooldown = 5;
         AbilityCooldown = 3;
-        Dmg = 3 * PrimaryStat;
+        Dmg = 1.5f * PrimaryStat;
         DmgType = DamageType.DOT;
-        SecondDmgType = DamageType.KNOCKBACK;
+        DotTimeTick = 3;
+        DotTimeCooldown = 1;
+        SecondDmgType = DamageType.SLOW;
+        Knockbacked = false;
+        SlowAmount = 3;
         AbilityPos = transform.position;
         IsAbility = true;
     }

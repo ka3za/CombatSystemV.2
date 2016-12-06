@@ -52,20 +52,45 @@ public class ActionManager : MonoBehaviour {
             switch (info[i].ActionType.DmgType)
             {
                 case Action.DamageType.KNOCKBACK:
-                    info[i].Target.transform.GetComponent<Rigidbody2D>().AddForce((info[i].Target.transform.position - info[i].ActionType.AbilityPos).normalized * 50, ForceMode2D.Impulse);
+                    if(info[i].ActionType.Knockbacked == false)
+                    {
+                        info[i].Target.transform.GetComponent<Rigidbody2D>().AddForce((info[i].Target.transform.position - info[i].ActionType.AbilityPos).normalized * 75, ForceMode2D.Impulse);
+                        info[i].ActionType.Knockbacked = true;
+                    }
+                    
                     break;
                 case Action.DamageType.DOT:
-                    if(info[i].Target.tag == "Player")
+                    info[i].ActionType.DotTimeCooldown -= Time.deltaTime;
+                    if (info[i].ActionType.DotTimeCooldown <= 0 && info[i].ActionType.DotTimeTick != 0)
                     {
-                        info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg;
-                        info[i].Target.GetComponent<Player>().UpdateStats();
-                    }               
+                        info[i].ActionType.DotTimeCooldown = 1;
+                        info[i].ActionType.DotTimeTick -= 1;
+                        if (info[i].Target.tag == "Player")
+                        {
+                            info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg / 3;
+                            info[i].Target.GetComponent<Player>().UpdateStats();
+                        }
+                    }
+                              
                     break;
                 case Action.DamageType.SLOW:
-                    if (info[i].Target.tag == "Player")
+                    if (info[i].ActionType.SlowAmount > 0)
                     {
-                        info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = 50;
-                    }    
+
+                        info[i].ActionType.SlowAmount -= Time.deltaTime;
+                        if (info[i].Target.tag == "Player")
+                        {
+                            info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed / 3;
+                        }
+                    }
+                    else
+                    {
+                        if (info[i].Target.tag == "Player")
+                        {
+                            info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.OldMovementSpeed;
+                        }
+                    }
+                     
                     break;
                 case Action.DamageType.STUN:
                     //info[i].Target.GetComponent<Player>().markasstunned?
@@ -80,19 +105,41 @@ public class ActionManager : MonoBehaviour {
                 switch (temp.SecondDmgType)
                 {
                     case Action.DamageType.KNOCKBACK:
-                        info[i].Target.transform.GetComponent<Rigidbody2D>().AddForce((info[i].Target.transform.position - info[i].ActionType.AbilityPos).normalized * 50, ForceMode2D.Impulse);
+                        if (info[i].ActionType.Knockbacked == false)
+                        {
+                            info[i].Target.transform.GetComponent<Rigidbody2D>().AddForce((info[i].Target.transform.position - info[i].ActionType.AbilityPos).normalized * 50, ForceMode2D.Impulse);
+                            info[i].ActionType.Knockbacked = true;
+                        }
                         break;
                     case Action.DamageType.DOT:
-                        if(info[i].Target.tag == "Player")
+                        info[i].ActionType.DotTimeCooldown -= Time.deltaTime;
+                        if (info[i].ActionType.DotTimeCooldown <= 0 && info[i].ActionType.DotTimeTick != 0)
                         {
-                            info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg;
-                            info[i].Target.GetComponent<Player>().UpdateStats();
+                            info[i].ActionType.DotTimeCooldown = 1;
+                            info[i].ActionType.DotTimeTick -= 1;
+                            if (info[i].Target.tag == "Player")
+                            {
+                                info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg / 3;
+                                info[i].Target.GetComponent<Player>().UpdateStats();
+                            }
                         }
                         break;
                     case Action.DamageType.SLOW:
-                        if (info[i].Target.tag == "Player")
+                        if (info[i].ActionType.SlowAmount > 0)
                         {
-                            info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = 50;
+
+                            info[i].ActionType.SlowAmount -= Time.deltaTime;
+                            if (info[i].Target.tag == "Player")
+                            {
+                                info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed / 3;
+                            }
+                        }
+                        else
+                        {
+                            if (info[i].Target.tag == "Player")
+                            {
+                                info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.OldMovementSpeed;
+                            }
                         }
                         break;
                     case Action.DamageType.STUN:
@@ -107,21 +154,36 @@ public class ActionManager : MonoBehaviour {
 
 
     public void Attacked(GameObject tempTarget, Action tempActionType)
-    {       
-        Information tempInfo = new Information();
-        //if((Ability)tempActionType.dmg == typeof(Ability))
-        //{
-            Ability tempAbility = new Ability();
-            tempAbility = (Ability)tempActionType;
+    {
+        bool allowed = true;
+
+        for (int i = 0; i < info.Count; i++)
+        {
+            if(info[i].ActionType == tempActionType && info[i].Target == tempTarget)
+            {
+                allowed = false;
+            }
+        }
+
+        if(allowed == true)
+        {
+            Information tempInfo = new Information();
+            //if((Ability)tempActionType.dmg == typeof(Ability))
+            //{
+            Ability tempAbility = (Ability)tempActionType;
             Debug.Log("Check tempAbility : " + tempAbility.DmgType + "   " + tempAbility.SecondDmgType);
             tempInfo.ActionType = tempAbility;
-       // }
-       // else
-       // {
+            // }
+            // else
+            // {
 
-       // }
-        tempInfo.Target = tempTarget;
-        //Check if ability is already on target
-        info.Add(tempInfo);
+            // }
+            tempInfo.Target = tempTarget;
+            //Check if ability is already on target
+            info.Add(tempInfo);
+        }
+
+        Debug.Log("Is ability allowed : " + allowed);
+        
     }
 }

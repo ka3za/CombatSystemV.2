@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Entity : MonoBehaviour {
 
+    [SerializeField]
     private BaseClass currentClass;
 
     public BaseClass CurrentClass
@@ -11,8 +12,31 @@ public class Entity : MonoBehaviour {
         set { currentClass = value; }
     }
 
-	// Use this for initialization
-	void Start () {
+    private float health;
+    private float currentHealth;
+    private int movementSpeed;
+
+    public float Health
+    {
+        get { return health; }
+        set { health = value; }
+    }
+
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        set { currentHealth = value; }
+    }
+
+    public int MovementSpeed
+    {
+        get { return movementSpeed; }
+        set { movementSpeed = value; }
+    }
+
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	

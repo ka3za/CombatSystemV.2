@@ -37,6 +37,60 @@ public class Player : Entity {
     private GameObject fireExplosionPrefab;
 
 
+    //Stats
+
+    private int stamina;
+    private int strength;
+    private int intellect;
+    private int agility;
+    private int armor;
+    private float currentEnergy;
+    private float maxEnergy;
+
+    public int Stamina
+    {
+        get { return stamina; }
+        set { stamina = value; }
+    }
+
+    public int Strength
+    {
+        get { return strength; }
+        set { strength = value; }
+    }
+
+    public int Intellect
+    {
+        get { return intellect; }
+        set { intellect = value; }
+    }
+
+    public int Agility
+    {
+        get { return agility; }
+        set { agility = value; }
+    }
+
+    public int Armor
+    {
+        get { return armor; }
+        set { armor = value; }
+    }
+
+
+    public float CurrentEnergy
+    {
+        get { return currentEnergy; }
+        set { currentEnergy = value; }
+    }
+
+    public float MaxEnergy
+    {
+        get { return maxEnergy; }
+        set { maxEnergy = value; }
+    }
+
+
     // Use this for initialization
     void Start () {
         dropDown.onValueChanged.AddListener(delegate
@@ -44,7 +98,7 @@ public class Player : Entity {
             dropDownValueChangedHandler(dropDown);
         });
 
-        CurrentClass = new Tank();
+        CurrentClass = new Mage();
         UpdateStats();
 	}
 	

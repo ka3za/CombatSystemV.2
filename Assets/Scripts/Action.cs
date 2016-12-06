@@ -23,6 +23,37 @@ public class Action : MonoBehaviour {
 
     private bool isAbility;
 
+    private bool knockbacked;
+
+    private float dotTimeTick;
+    private float dotTimeCooldown;
+
+    private float slowAmount;
+
+    public float SlowAmount
+    {
+        get { return slowAmount; }
+        set { slowAmount = value; }
+    }
+
+    public bool Knockbacked
+    {
+        get { return knockbacked; }
+        set { knockbacked = value; }
+    }
+
+    public float DotTimeTick
+    {
+        get { return dotTimeTick; }
+        set { dotTimeTick = value; }
+    }
+
+    public float DotTimeCooldown
+    {
+        get { return dotTimeCooldown; }
+        set { dotTimeCooldown = value; }
+    }
+
     public DamageType DmgType
     {
         get { return dmgType; }
