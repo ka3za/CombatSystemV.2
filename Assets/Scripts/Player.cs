@@ -32,10 +32,23 @@ public class Player : Entity {
 
     private float diagonalNerf = 0.75f;
 
-
     [SerializeField]
     private GameObject fireExplosionPrefab;
 
+    [SerializeField]
+    private float distance = 0.05f;
+
+    private Vector3 mousePosition;
+    private Vector3 direction;
+    private float distanceFromPlayer;
+
+    //Action attach point
+    private GameObject atchPoint;
+
+    //Weapon Slot
+    private GameObject weaponReff;
+
+    private bool clamped = false;
 
     //Stats
 
@@ -92,7 +105,8 @@ public class Player : Entity {
 
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         dropDown.onValueChanged.AddListener(delegate
         {
             dropDownValueChangedHandler(dropDown);
@@ -100,23 +114,98 @@ public class Player : Entity {
 
         CurrentClass = new Mage();
         UpdateStats();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        MenuKeyHandling(); 
 
+        //Weapon Slot
+        weaponReff = GameObject.Find("Weapon1");
+
+        //Action attatch point
+        atchPoint = new GameObject("ActionAttachPoint");
+	}
+
+	// Update is called once per frame
+	void Update ()
+    {
+        MenuKeyHandling();
     }
 
     void FixedUpdate()
     {
         RealTimeMovement();
-    }
 
+        //gets the mouse position on the screen
+        mousePosition = playerCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 
+            Input.mousePosition.y, Input.mousePosition.z - playerCam.transform.position.z));
+
+        //raycast
+        //RaycastHit2D ray = Physics2D.Raycast(transform.position, mousePosition, 1000);
+        Debug.DrawRay(transform.position, mousePosition, Color.red);
+        var end = transform.position + mousePosition.normalized * 1000;
+
+        if (!clamped)
+        {
+            //sets action attatch point at mouse position
+            atchPoint.transform.position = mousePosition; 
+        }
+        else
+        {
+            //NOTE: Jeg tror .normalized fucker det op.
+            atchPoint.transform.position = (mousePosition- transform.position).normalized * distance + transform.position;
+        }
+
+        //rotates action attatch point toward extrapoladed mouse position
+        atchPoint.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((end.y - transform.position.y),
+            (end.x - transform.position.x)) * Mathf.Rad2Deg + 90);
+
+        //gets distance between player position and mouse position
+        //distanceFromPlayer = (Input.mousePosition - playerCam.WorldToScreenPoint(transform.position)).magnitude;
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            clamped = !clamped;
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            AttachChildToPoint(weaponReff);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DetachChildFromPoint(weaponReff);
+        }
+    }
 
     void Destroy()
     {
         dropDown.onValueChanged.RemoveAllListeners();
+    }
+
+    public void AttachChildToPoint(GameObject newChild)
+    {
+        if (newChild.transform.parent == null)
+        {
+            atchPoint.transform.rotation = Quaternion.identity;
+            newChild.transform.position = atchPoint.transform.position;
+            newChild.transform.parent = atchPoint.transform;
+            Debug.Log(newChild.name + " is now child of action attatch point");
+        }
+        else
+        {
+            Debug.Log(newChild.name + " already is child of action attatch point");
+        }
+    }
+
+    public void DetachChildFromPoint(GameObject exChild)
+    {
+        if (exChild.transform.parent != null)
+        {
+            exChild.transform.parent = null;
+            Debug.Log(exChild.name + " is no longer the child of action attatch point"); 
+        }
+        else
+        {
+            Debug.Log(exChild.name + " is already not a child of action attatch point");
+        }
     }
 
     private void dropDownValueChangedHandler(Dropdown target)

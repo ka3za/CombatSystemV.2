@@ -75,6 +75,6 @@ public class Enemy : Entity {
 
     private void Attack()
     {
-        Debug.Log("PLAYER ATTACKED");
+        //Debug.Log("PLAYER ATTACKED");
     }
 }
