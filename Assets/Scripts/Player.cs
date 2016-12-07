@@ -36,7 +36,7 @@ public class Player : Entity {
     private GameObject fireExplosionPrefab;
 
     [SerializeField]
-    private float distance = 0.05f;
+    private float distance = 0.3f;
 
     private Vector3 mousePosition;
     private Vector3 direction;
@@ -136,10 +136,15 @@ public class Player : Entity {
         mousePosition = playerCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 
             Input.mousePosition.y, Input.mousePosition.z - playerCam.transform.position.z));
 
-        //raycast
-        //RaycastHit2D ray = Physics2D.Raycast(transform.position, mousePosition, 1000);
-        Debug.DrawRay(transform.position, mousePosition, Color.red);
-        var end = transform.position + mousePosition.normalized * 1000;
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log(transform.position.ToString());
+        }
+
+        //mouseline
+        Debug.DrawLine(transform.position, mousePosition, Color.red);
+        //extrapoladed mouse position
+        var end = (transform.position - mousePosition).normalized * 1000;
 
         if (!clamped)
         {
@@ -148,16 +153,13 @@ public class Player : Entity {
         }
         else
         {
-            //NOTE: Jeg tror .normalized fucker det op.
+            //sets action attatch point to a limited distance i the direction of mouse position
             atchPoint.transform.position = (mousePosition- transform.position).normalized * distance + transform.position;
         }
 
         //rotates action attatch point toward extrapoladed mouse position
         atchPoint.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((end.y - transform.position.y),
             (end.x - transform.position.x)) * Mathf.Rad2Deg + 90);
-
-        //gets distance between player position and mouse position
-        //distanceFromPlayer = (Input.mousePosition - playerCam.WorldToScreenPoint(transform.position)).magnitude;
 
         if (Input.GetKeyDown(KeyCode.J))
         {
