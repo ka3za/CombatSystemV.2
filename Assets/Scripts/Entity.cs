@@ -3,18 +3,11 @@ using System.Collections;
 
 public class Entity : MonoBehaviour {
 
-    [SerializeField]
-    private BaseClass currentClass;
-
-    public BaseClass CurrentClass
-    {
-        get { return currentClass; }
-        set { currentClass = value; }
-    }
 
     private float health;
     private float currentHealth;
     private int movementSpeed;
+    private int baseMovementSpeed;
 
     public float Health
     {
@@ -34,6 +27,12 @@ public class Entity : MonoBehaviour {
         set { movementSpeed = value; }
     }
 
+    public int BaseMovementSpeed
+    {
+        get { return baseMovementSpeed; }
+        set { baseMovementSpeed = value; }
+    }
+
 
     // Use this for initialization
     void Start () {
@@ -44,25 +43,6 @@ public class Entity : MonoBehaviour {
 	void Update () {
 	
 	}
-
-
-    public void SetClass(string className)
-    {
-        switch (className)
-        {
-            case "Tank":
-                currentClass = new Tank();
-                break;
-            case "Mage":
-                currentClass = new Mage();
-                break;
-            case "Hunter":
-                currentClass = new Hunter();
-                break;
-            default:
-                break;
-        }
-    }
 
     public virtual void OnDeath()
     {

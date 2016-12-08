@@ -4,8 +4,6 @@ using System.Collections;
 public class Enemy : Entity {
     
     private GameObject player;
-    [SerializeField]
-    private BaseClass.ClassType pickEnemyClass;
 
     private Vector2 startPos;
 
@@ -16,22 +14,10 @@ public class Enemy : Entity {
 	// Use this for initialization
 	void Start () {
 
+        MovementSpeed = 150;
+
         startPos = transform.position;
 
-        switch (pickEnemyClass)
-        {
-            case BaseClass.ClassType.Hunter:
-                CurrentClass = new Hunter();
-                break;
-            case BaseClass.ClassType.Mage:
-                CurrentClass = new Mage();
-                break;
-            case BaseClass.ClassType.Tank:
-                CurrentClass = new Tank();
-                break;
-            default:
-                break;
-        }
         player = GameObject.FindGameObjectWithTag("Player");
 	
 	}
@@ -63,14 +49,14 @@ public class Enemy : Entity {
             Attack();
         }else
         {
-            GetComponent<Rigidbody2D>().AddForce((player.transform.position - transform.position) * CurrentClass.MovementSpeed / 2);
+            GetComponent<Rigidbody2D>().AddForce((player.transform.position - transform.position) * MovementSpeed / 2);
         }
     }
 
     private void BackToSpawn()
     {
         Vector2 tempOwnPos = transform.position;
-        GetComponent<Rigidbody2D>().AddForce((startPos - tempOwnPos) * CurrentClass.MovementSpeed / 2);
+        GetComponent<Rigidbody2D>().AddForce((startPos - tempOwnPos) * MovementSpeed / 2);
     }
 
     private void Attack()

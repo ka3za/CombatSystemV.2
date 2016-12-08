@@ -67,7 +67,7 @@ public class ActionManager : MonoBehaviour {
                         info[i].ActionType.DotTimeTick -= 1;
                         if (info[i].Target.tag == "Player")
                         {
-                            info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg / 3;
+                            info[i].Target.GetComponent<Player>().CurrentHealth -= info[i].ActionType.Dmg / 3;
                             info[i].Target.GetComponent<Player>().UpdateStats();
                         }
                     }
@@ -80,14 +80,14 @@ public class ActionManager : MonoBehaviour {
                         info[i].ActionType.SlowAmount -= Time.deltaTime;
                         if (info[i].Target.tag == "Player")
                         {
-                            info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed / 3;
+                            info[i].Target.GetComponent<Player>().MovementSpeed = info[i].Target.GetComponent<Player>().MovementSpeed / 3;
                         }
                     }
                     else
                     {
                         if (info[i].Target.tag == "Player")
                         {
-                            info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.OldMovementSpeed;
+                            info[i].Target.GetComponent<Player>().MovementSpeed = info[i].Target.GetComponent<Player>().BaseMovementSpeed;
                         }
                     }
                      
@@ -119,7 +119,7 @@ public class ActionManager : MonoBehaviour {
                             info[i].ActionType.DotTimeTick -= 1;
                             if (info[i].Target.tag == "Player")
                             {
-                                info[i].Target.GetComponent<Player>().CurrentClass.CurrentHealth -= info[i].ActionType.Dmg / 3;
+                                info[i].Target.GetComponent<Player>().CurrentHealth -= info[i].ActionType.Dmg / 3;
                                 info[i].Target.GetComponent<Player>().UpdateStats();
                             }
                         }
@@ -131,14 +131,14 @@ public class ActionManager : MonoBehaviour {
                             info[i].ActionType.SlowAmount -= Time.deltaTime;
                             if (info[i].Target.tag == "Player")
                             {
-                                info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed / 3;
+                                info[i].Target.GetComponent<Player>().MovementSpeed = info[i].Target.GetComponent<Player>().MovementSpeed / 3;
                             }
                         }
                         else
                         {
                             if (info[i].Target.tag == "Player")
                             {
-                                info[i].Target.GetComponent<Player>().CurrentClass.MovementSpeed = info[i].Target.GetComponent<Player>().CurrentClass.OldMovementSpeed;
+                                info[i].Target.GetComponent<Player>().MovementSpeed = info[i].Target.GetComponent<Player>().BaseMovementSpeed;
                             }
                         }
                         break;

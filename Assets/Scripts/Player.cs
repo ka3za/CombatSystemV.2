@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Player : Entity {
 
+    enum Classes {Tank, Hunter, Mage}
+
     [SerializeField]
     private Camera playerCam;
 
@@ -13,6 +15,8 @@ public class Player : Entity {
     private Sprite[] playerSprites2;
     [SerializeField]
     private Sprite[] playerSprites3;
+    [SerializeField]
+    private Text classText;
     [SerializeField]
     private Text healthText;
     [SerializeField]
@@ -51,6 +55,8 @@ public class Player : Entity {
     private bool clamped = false;
 
     //Stats
+
+    private Classes currentClass;
 
     private int stamina;
     private int strength;
@@ -112,7 +118,9 @@ public class Player : Entity {
             dropDownValueChangedHandler(dropDown);
         });
 
-        CurrentClass = new Mage();
+        currentClass = Classes.Tank;
+        ClassTank();
+
         UpdateStats();
 
         //Weapon Slot
@@ -215,21 +223,22 @@ public class Player : Entity {
         switch (target.value)
         {
             case 0:
-                CurrentClass = new Tank();
-                Debug.Log("Changed to tank");
+                currentClass = Classes.Tank;
+                ClassTank();
                 break;
             case 1:
-                CurrentClass = new Mage();
-                Debug.Log("Changed to mage");
+                currentClass = Classes.Mage;
+                ClassMage();
                 break;
             case 2:
-                CurrentClass = new Hunter();
-                Debug.Log("Changed to hunter");
+                currentClass = Classes.Hunter;
+                ClassHunter();
                 break;
             default:
                 break;
         }
         UpdateStats();
+        
     }
 
     public void SetDropdownIndex(int index)
@@ -237,43 +246,97 @@ public class Player : Entity {
         dropDown.value = index;
     }
 
+    /// <summary>
+    /// Update health and energy
+    /// </summary>
     public void UpdateStats()
-    {
-        if (CurrentClass != null)
+    {      
+        healthText.text = "Health : " + CurrentHealth + " / " + Health;
+        classText.text = "Current Class: " + currentClass;
+        switch (currentClass)
         {
-            healthText.text = "Health : " + CurrentClass.CurrentHealth + " / " + CurrentClass.Health;
-            switch (CurrentClass.TheClassType)
-            {
-                case BaseClass.ClassType.Hunter:
-                    energySourceText.text = "Energy : " + CurrentClass.CurrentEnergy + " / " + CurrentClass.MaxEnergy;
-                    break;
-                case BaseClass.ClassType.Mage:
-                    energySourceText.text = "Mana : " + CurrentClass.CurrentEnergy + " / " + CurrentClass.MaxEnergy;
-                    break;
-                case BaseClass.ClassType.Tank:
-                    energySourceText.text = "Rage : " + CurrentClass.CurrentEnergy + " / " + CurrentClass.MaxEnergy;
-                    break;
-                default:
-                    break;
-            }
-
+            case Classes.Hunter:
+                energySourceText.text = "Energy : " + currentEnergy + " / " + maxEnergy;
+                break;
+            case Classes.Mage:
+                energySourceText.text = "Mana : " + currentEnergy + " / " + maxEnergy;
+                break;
+            case Classes.Tank:
+                energySourceText.text = "Rage : " + currentEnergy + " / " + maxEnergy;
+                break;
+            default:
+                break;
         }
+        
+    }
+    
+   /// <summary>
+   /// Update base stats for each class that the player can be
+   /// </summary>
+   /// 
+
+    private void ClassTank()
+    {
+        stamina = 200;
+        strength = 3;
+        intellect = 0;
+        agility = 0;
+        armor = 10;
+        BaseMovementSpeed = 120;
+        MovementSpeed = BaseMovementSpeed;
+        Health = (Stamina * 1.5f) + 10;
+        CurrentHealth = Health;
+        MaxEnergy = 100;
+        CurrentEnergy = MaxEnergy;
     }
 
+    private void ClassMage()
+    {
+        stamina = 100;
+        strength = 0;
+        intellect = 10;
+        agility = 0;
+        armor = 0;
+        BaseMovementSpeed = 160;
+        MovementSpeed = BaseMovementSpeed;
+        Health = (Stamina * 1.5f) + 100;
+        CurrentHealth = Health;
+        MaxEnergy = (Intellect * 1.1f) + 100;
+        CurrentEnergy = MaxEnergy;
+    }
+
+    private void ClassHunter()
+    {
+        stamina = 105;
+        strength = 0;
+        intellect = 0;
+        agility = 10;
+        armor = 5;
+        BaseMovementSpeed = 170;
+        MovementSpeed = BaseMovementSpeed;
+        Health = (Stamina * 1.5f) + 10;
+        CurrentHealth = Health;
+        MaxEnergy = 100;
+        CurrentEnergy = MaxEnergy;
+    }
+
+    /// <summary>
+    /// A method to handle keys to movement for the realtime combat mode
+    /// </summary>
     private void RealTimeMovement()
     {
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.left * CurrentClass.MovementSpeed);
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce(Vector2.left * MovementSpeed);
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[2];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[2];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[2];
                     break;
                 default:
@@ -284,16 +347,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.left + Vector2.up) * (CurrentClass.MovementSpeed * diagonalNerf));
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce((Vector2.left + Vector2.up) * (MovementSpeed * diagonalNerf));
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[2];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[2];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[2];
                     break;
                 default:
@@ -304,16 +367,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.left + Vector2.down) * (CurrentClass.MovementSpeed * diagonalNerf));
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce((Vector2.left + Vector2.down) * (MovementSpeed * diagonalNerf));
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[2];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[2];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[2];
                     break;
                 default:
@@ -324,16 +387,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.right * CurrentClass.MovementSpeed);
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce(Vector2.right * MovementSpeed);
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[1];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[1];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[1];
                     break;
                 default:
@@ -344,16 +407,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.up) * (CurrentClass.MovementSpeed * diagonalNerf));
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.up) * (MovementSpeed * diagonalNerf));
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[1];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[1];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[1];
                     break;
                 default:
@@ -364,16 +427,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.down) * (CurrentClass.MovementSpeed * diagonalNerf));
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce((Vector2.right + Vector2.down) * (MovementSpeed * diagonalNerf));
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[1];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[1];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[1];
                     break;
                 default:
@@ -385,16 +448,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * CurrentClass.MovementSpeed);
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce(Vector2.up * MovementSpeed);
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[3];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[3];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[3];
                     break;
                 default:
@@ -405,16 +468,16 @@ public class Player : Entity {
 
         if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.down * CurrentClass.MovementSpeed);
-            switch (CurrentClass.TheClassType)
+            GetComponent<Rigidbody2D>().AddForce(Vector2.down * MovementSpeed);
+            switch (currentClass)
             {
-                case BaseClass.ClassType.Hunter:
+                case Classes.Hunter:
                     GetComponent<SpriteRenderer>().sprite = playerSprites3[0];
                     break;
-                case BaseClass.ClassType.Mage:
+                case Classes.Mage:
                     GetComponent<SpriteRenderer>().sprite = playerSprites2[0];
                     break;
-                case BaseClass.ClassType.Tank:
+                case Classes.Tank:
                     GetComponent<SpriteRenderer>().sprite = playerSprites[0];
                     break;
                 default:
@@ -456,17 +519,17 @@ public class Player : Entity {
 
     private void UseAbility()
     {
-        switch (CurrentClass.TheClassType)
+        switch (currentClass)
         {
-            case BaseClass.ClassType.Hunter:
+            case Classes.Hunter:
                 break;
-            case BaseClass.ClassType.Mage:
+            case Classes.Mage:
                 Vector3 tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 tempPos.z = 0.1f;
                 GameObject fireExplosionPrefabTemp = Instantiate(fireExplosionPrefab, tempPos, Quaternion.identity) as GameObject;
-                fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(CurrentClass.Intellect);
+                fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(intellect);
                 break;
-            case BaseClass.ClassType.Tank:
+            case Classes.Tank:
                 break;
             default:
                 break;
@@ -481,7 +544,7 @@ public class Player : Entity {
 
     public override void OnDeath()
     {
-        if (CurrentClass.CurrentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
 
         }
