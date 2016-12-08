@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Action : MonoBehaviour {
+public abstract class Action : MonoBehaviour {
 
     public enum DamageType { KNOCKBACK, DOT, SLOW, STUN}
 
@@ -111,26 +111,5 @@ public class Action : MonoBehaviour {
 
     }
 
-    // Use this for initialization
-    void Start ()
-    {
-        
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    //public void AttachToParrent(GameObject newParrent)
-    //{
-    //    transform.parent = newParrent.transform;
-    //    Debug.Log(newParrent.name + " is now parrent of " + name);
-    //}
-
-    //public void DetachFromParrent(GameObject exParrent)
-    //{
-    //    transform.parent = null;
-    //    Debug.Log(exParrent.name + " is no longer the parrent of " + name);
-    //}
+    public abstract void Use();
 }
