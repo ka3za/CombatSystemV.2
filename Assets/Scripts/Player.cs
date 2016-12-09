@@ -21,12 +21,20 @@ public class Player : Entity {
     private Text healthText;
     [SerializeField]
     private Text energySourceText;
-
+    [SerializeField]
     private Text moveCostText;
+    [SerializeField]
+    private Text currentMovePointsUI;
 
-    private Text currentMovePositionUI;
+    private bool isMoving = false;
 
-    private GameObject turnManager;
+    private float currentMovePoints;
+
+    private float moveCost;
+
+    private Vector3 currentMousePosition;
+
+    private Vector3 moveTarget;
 
     [SerializeField]
     private Dropdown dropDown;
@@ -65,6 +73,7 @@ public class Player : Entity {
     private int armor;
     private float currentEnergy;
     private float maxEnergy;
+    private int movePoints;
 
     public int Stamina
     {
@@ -109,6 +118,12 @@ public class Player : Entity {
         set { maxEnergy = value; }
     }
 
+    public int MovePoints
+    {
+        get { return movePoints; }
+        set{ movePoints = value; }
+    }
+
 
     // Use this for initialization
     void Start ()
@@ -118,8 +133,11 @@ public class Player : Entity {
             dropDownValueChangedHandler(dropDown);
         });
 
+        turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
+
         currentClass = Classes.Tank;
         ClassTank();
+        currentMovePoints = MovePoints;
 
         UpdateStats();
 
@@ -134,11 +152,29 @@ public class Player : Entity {
 	void Update ()
     {
         MenuKeyHandling();
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+            {
+                turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Turnbased;
+            }
+            else
+            {
+                turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        RealTimeMovement();
+        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+        {
+            RealTimeMovement();
+        }
+        else
+        {
+            TurnBasedMovement();
+        }
 
         //gets the mouse position on the screen
         mousePosition = playerCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 
@@ -288,6 +324,7 @@ public class Player : Entity {
         CurrentHealth = Health;
         MaxEnergy = 100;
         CurrentEnergy = MaxEnergy;
+        MovePoints = 8;
     }
 
     private void ClassMage()
@@ -303,6 +340,7 @@ public class Player : Entity {
         CurrentHealth = Health;
         MaxEnergy = (Intellect * 1.1f) + 100;
         CurrentEnergy = MaxEnergy;
+        MovePoints = 10;
     }
 
     private void ClassHunter()
@@ -318,6 +356,7 @@ public class Player : Entity {
         CurrentHealth = Health;
         MaxEnergy = 100;
         CurrentEnergy = MaxEnergy;
+        MovePoints = 12;
     }
 
     /// <summary>
@@ -445,7 +484,6 @@ public class Player : Entity {
 
         }
 
-
         if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * MovementSpeed);
@@ -504,17 +542,44 @@ public class Player : Entity {
 
     private void TurnBasedMovement()
     {
+        if (turnManager.GetComponent<TurnManager>().playerTurn)
+        {
+            currentMovePointsUI.text = "Current MP: " + currentMovePoints + " / " + MovePoints;
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (!isMoving)
+                {
+                    if (currentMovePoints >= moveCost)
+                    {
+                        moveTarget = currentMousePosition;
+                        isMoving = true;
+                        currentMovePoints -= moveCost;
+                    }
+                }
 
+            }
+
+            if (transform.position != moveTarget && isMoving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, moveTarget, 5 * Time.deltaTime);
+            }
+            else
+            {
+                isMoving = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                EndTurn();
+            }
+
+        }
     }
 
     private void EndTurn()
     {
-
-    }
-
-    private void ReplenishPoints()
-    {
-
+        turnManager.GetComponent<TurnManager>().SwitchTurn();
+        currentMovePoints = MovePoints;
     }
 
     private void UseAbility()
@@ -549,5 +614,30 @@ public class Player : Entity {
 
         }
         base.OnDeath();
+    }
+
+    public void OnDrawGizmos()
+    {
+
+        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && turnManager.GetComponent<TurnManager>().playerTurn)
+        {
+            UnityEditor.Handles.color = Color.red;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, currentMovePoints / 2);
+            currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            currentMousePosition.z = 0;
+            moveCost = Mathf.Ceil(Vector3.Distance(transform.position, currentMousePosition) * 2);
+
+            if (Vector3.Distance(transform.position, currentMousePosition * 2) <= currentMovePoints)
+            {
+
+                moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);
+                moveCostText.text = "MP COST: " + moveCost;
+                UnityEditor.Handles.DrawLine(transform.position, currentMousePosition);
+            }
+            else
+            {
+                moveCostText.text = "";
+            }
+        }
     }
 }
