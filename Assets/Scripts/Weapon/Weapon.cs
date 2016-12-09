@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Weapon : Action {
 
@@ -16,21 +17,13 @@ public class Weapon : Action {
         set { mousePos = value; }
     }
 
-   
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-
     public void Block()
     {
 
+    }
+
+    public override void Use()
+    {
+        throw new NotImplementedException();
     }
 }

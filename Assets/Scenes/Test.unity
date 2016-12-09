@@ -2380,7 +2380,7 @@ MonoBehaviour:
   canvas: {fileID: 1340418142}
   fireExplosionPrefab: {fileID: 1000010919675218, guid: f02798efe7192be45a303e52a8941578,
     type: 2}
-  distance: 0.05
+  distance: 0.5
 --- !u!212 &1741364971
 SpriteRenderer:
   m_ObjectHideFlags: 0

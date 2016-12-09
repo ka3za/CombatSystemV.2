@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class Player : Entity {
 
@@ -9,6 +10,7 @@ public class Player : Entity {
     [SerializeField]
     private Camera playerCam;
 
+    #region visual
     [SerializeField]
     private Sprite[] playerSprites;
     [SerializeField]
@@ -41,18 +43,20 @@ public class Player : Entity {
 
     [SerializeField]
     private Canvas canvas;
+    #endregion
 
     private float diagonalNerf = 0.75f;
 
     [SerializeField]
     private GameObject fireExplosionPrefab;
 
+
+
+    #region WeaponHandling
     [SerializeField]
     private float distance = 0.3f;
 
     private Vector3 mousePosition;
-    private Vector3 direction;
-    private float distanceFromPlayer;
 
     //Action attach point
     private GameObject atchPoint;
@@ -60,9 +64,11 @@ public class Player : Entity {
     //Weapon Slot
     private GameObject weaponReff;
 
+    //Free or contrained weapon
     private bool clamped = false;
+    #endregion
 
-    //Stats
+    #region Stats
 
     private Classes currentClass;
 
@@ -118,12 +124,14 @@ public class Player : Entity {
         set { maxEnergy = value; }
     }
 
+
     public int MovePoints
     {
         get { return movePoints; }
         set{ movePoints = value; }
     }
 
+    #endregion
 
     // Use this for initialization
     void Start ()
@@ -163,6 +171,8 @@ public class Player : Entity {
                 turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
             }
         }
+
+        ActionHandling();
     }
 
     void FixedUpdate()
@@ -219,39 +229,12 @@ public class Player : Entity {
         {
             DetachChildFromPoint(weaponReff);
         }
+        RealTimeMovement();
     }
 
     void Destroy()
     {
         dropDown.onValueChanged.RemoveAllListeners();
-    }
-
-    public void AttachChildToPoint(GameObject newChild)
-    {
-        if (newChild.transform.parent == null)
-        {
-            atchPoint.transform.rotation = Quaternion.identity;
-            newChild.transform.position = atchPoint.transform.position;
-            newChild.transform.parent = atchPoint.transform;
-            Debug.Log(newChild.name + " is now child of action attatch point");
-        }
-        else
-        {
-            Debug.Log(newChild.name + " already is child of action attatch point");
-        }
-    }
-
-    public void DetachChildFromPoint(GameObject exChild)
-    {
-        if (exChild.transform.parent != null)
-        {
-            exChild.transform.parent = null;
-            Debug.Log(exChild.name + " is no longer the child of action attatch point"); 
-        }
-        else
-        {
-            Debug.Log(exChild.name + " is already not a child of action attatch point");
-        }
     }
 
     private void dropDownValueChangedHandler(Dropdown target)
@@ -261,6 +244,7 @@ public class Player : Entity {
             case 0:
                 currentClass = Classes.Tank;
                 ClassTank();
+                //NOTE: ChangeWeapon
                 break;
             case 1:
                 currentClass = Classes.Mage;
@@ -540,6 +524,77 @@ public class Player : Entity {
         }
     }
 
+    private void ActionHandling()
+    {
+        //gets the mouse position on the screen
+        mousePosition = playerCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
+            Input.mousePosition.y, Input.mousePosition.z - playerCam.transform.position.z));
+
+        //mouseline
+        Debug.DrawLine(transform.position, mousePosition, Color.red);
+
+        //extrapoladed mouse position
+        var end = (transform.position - mousePosition).normalized * 1000;
+
+        if (!clamped)
+        {
+            //sets action attatch point at mouse position
+            atchPoint.transform.position = mousePosition;
+        }
+        else
+        {
+            //sets action attatch point to a limited distance i the direction of mouse position
+            atchPoint.transform.position = (mousePosition - transform.position).normalized * distance + transform.position;
+        }
+
+        //rotates action attatch point toward extrapoladed mouse position
+        atchPoint.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((end.y - transform.position.y),
+            (end.x - transform.position.x)) * Mathf.Rad2Deg + 90);
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            clamped = !clamped;
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            AttachChildToPoint(weaponReff);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DetachChildFromPoint(weaponReff);
+        }
+    }
+
+    private void AttachChildToPoint(GameObject newChild)
+    {
+        if (newChild.transform.parent == null)
+        {
+            atchPoint.transform.rotation = Quaternion.identity;
+            newChild.transform.position = atchPoint.transform.position;
+            newChild.transform.parent = atchPoint.transform;
+            Debug.Log(newChild.name + " is now child of action attatch point");
+        }
+        else
+        {
+            Debug.Log(newChild.name + " already is child of action attatch point");
+        }
+    }
+
+    private void DetachChildFromPoint(GameObject exChild)
+    {
+        if (exChild.transform.parent != null)
+        {
+            exChild.transform.parent = null;
+            Debug.Log(exChild.name + " is no longer the child of action attatch point");
+        }
+        else
+        {
+            Debug.Log(exChild.name + " is already not a child of action attatch point");
+        }
+    }
+
     private void TurnBasedMovement()
     {
         if (turnManager.GetComponent<TurnManager>().playerTurn)
@@ -582,6 +637,31 @@ public class Player : Entity {
         currentMovePoints = MovePoints;
     }
 
+    private void ChangeWeapon()
+    {
+        //if weaponreff != null
+        //detach
+        //attatch weapon switch
+        //remember clamped or not
+        //what about ranger and raycast?
+    }
+
+    private void PrimeAbility()
+    {
+        //Sæt ability på action attacth point
+    }
+
+    private void UnprimeAbility()
+    {
+        //tag ability af action attach point
+        //attacth weapon
+    }
+
+    private void UsePrimedAction()
+    {
+        //kald action attacth point child Use()
+    }
+
     private void UseAbility()
     {
         switch (currentClass)
@@ -602,10 +682,6 @@ public class Player : Entity {
         
     }
 
-    private void UpdateWeaponPosAndDir()
-    {
-
-    }
 
     public override void OnDeath()
     {
