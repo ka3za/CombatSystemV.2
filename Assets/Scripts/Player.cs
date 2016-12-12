@@ -58,6 +58,8 @@ public class Player : Entity {
     //Weapon Slot
     private GameObject weaponReff;
 
+    private GameObject curWeapon;
+
     //Free or contrained weapon
     private bool clamped = false;
     #endregion
@@ -131,8 +133,8 @@ public class Player : Entity {
 
         currentClass = Classes.Tank;
         ClassTank();
-        Weapons[0] = (GameObject)Instantiate(Weapons[0]);
-        ChangeWeapon(Weapons[0], true);
+        curWeapon = (GameObject)Instantiate(Weapons[0]);
+        ChangeWeapon(curWeapon, true);
         UpdateStats();
 
         
@@ -159,25 +161,26 @@ public class Player : Entity {
     private void dropDownValueChangedHandler(Dropdown target)
     {
         Destroy(weaponReff);
+        curWeapon = null;
         switch (target.value)
         {
             case 0:
                 currentClass = Classes.Tank;
                 ClassTank();
-                Weapons[0] = (GameObject)Instantiate(Weapons[0]);
-                ChangeWeapon(Weapons[0], true);
+                curWeapon = (GameObject)Instantiate(Weapons[0]);
+                ChangeWeapon(curWeapon, true);
                 break;
             case 1:
                 currentClass = Classes.Mage;
                 ClassMage();
-                Weapons[1] = (GameObject)Instantiate(Weapons[1]);
-                ChangeWeapon(Weapons[1], true);
+                curWeapon = (GameObject)Instantiate(Weapons[1]);
+                ChangeWeapon(curWeapon, true);
                 break;
             case 2:
                 currentClass = Classes.Hunter;
                 ClassHunter();
-                Weapons[2] = (GameObject)Instantiate(Weapons[2]);
-                ChangeWeapon(Weapons[2], true);
+                curWeapon = (GameObject)Instantiate(Weapons[2]);
+                ChangeWeapon(curWeapon, true);
                 break;
             default:
                 break;
