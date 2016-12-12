@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Entity : MonoBehaviour {
 
+    [SerializeField]
+    protected GameObject turnManager;
 
     private float health;
     private float currentHealth;
