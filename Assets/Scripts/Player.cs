@@ -43,7 +43,8 @@ public class Player : Entity {
     [SerializeField]
     private GameObject fireExplosionPrefab;
 
-
+    [SerializeField]
+    private GameObject[] Weapons;
 
     #region WeaponHandling
     [SerializeField]
@@ -125,16 +126,16 @@ public class Player : Entity {
             dropDownValueChangedHandler(dropDown);
         });
 
-        currentClass = Classes.Tank;
-        ClassTank();
-
-        UpdateStats();
-
-        //Weapon Slot
-        weaponReff = GameObject.Find("Weapon1");
-
         //Action attatch point
         atchPoint = new GameObject("ActionAttachPoint");
+
+        currentClass = Classes.Tank;
+        ClassTank();
+        Weapons[0] = (GameObject)Instantiate(Weapons[0]);
+        ChangeWeapon(Weapons[0], true);
+        UpdateStats();
+
+        
 	}
 
 	// Update is called once per frame
@@ -157,20 +158,26 @@ public class Player : Entity {
 
     private void dropDownValueChangedHandler(Dropdown target)
     {
+        Destroy(weaponReff);
         switch (target.value)
         {
             case 0:
                 currentClass = Classes.Tank;
                 ClassTank();
-                //NOTE: ChangeWeapon
+                Weapons[0] = (GameObject)Instantiate(Weapons[0]);
+                ChangeWeapon(Weapons[0], true);
                 break;
             case 1:
                 currentClass = Classes.Mage;
                 ClassMage();
+                Weapons[1] = (GameObject)Instantiate(Weapons[1]);
+                ChangeWeapon(Weapons[1], true);
                 break;
             case 2:
                 currentClass = Classes.Hunter;
                 ClassHunter();
+                Weapons[2] = (GameObject)Instantiate(Weapons[2]);
+                ChangeWeapon(Weapons[2], true);
                 break;
             default:
                 break;
@@ -488,6 +495,8 @@ public class Player : Entity {
         if (newChild.transform.parent == null)
         {
             atchPoint.transform.rotation = Quaternion.identity;
+            newChild.transform.rotation = Quaternion.identity;
+
             newChild.transform.position = atchPoint.transform.position;
             newChild.transform.parent = atchPoint.transform;
             Debug.Log(newChild.name + " is now child of action attatch point");
@@ -526,13 +535,17 @@ public class Player : Entity {
 
     }
 
-    private void ChangeWeapon()
+    private void ChangeWeapon(GameObject newWeapon, bool isClamped)
     {
-        //if weaponreff != null
-        //detach
-        //attatch weapon switch
-        //remember clamped or not
-        //what about ranger and raycast?
+        if (weaponReff != null)
+        {
+            DetachChildFromPoint(weaponReff);
+            weaponReff = null;
+        }
+        
+        weaponReff = newWeapon;
+        AttachChildToPoint(weaponReff);
+        clamped = isClamped;
     }
 
     private void PrimeAbility()
