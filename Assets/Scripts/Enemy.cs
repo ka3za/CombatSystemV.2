@@ -36,11 +36,19 @@ public class Enemy : Entity {
         
 	}
 
+    /// <summary>
+    /// This will return false or true depending on how far away the Player is from the Enemy(itself)
+    /// </summary>
+    /// <param name="distance"></param>
+    /// <returns></returns>
     private bool CheckDistanceToPlayer(float distance)
     {
         return Vector2.Distance(player.transform.position, transform.position) <= distance;
     }
 
+    /// <summary>
+    /// Enemy movement.
+    /// </summary>
     private void Movement()
     {
         
@@ -53,12 +61,18 @@ public class Enemy : Entity {
         }
     }
 
+    /// <summary>
+    /// If the Enemy is away from its original spawn position and far away from the Player, this method allow it to return to its spawn location.
+    /// </summary>
     private void BackToSpawn()
     {
         Vector2 tempOwnPos = transform.position;
         GetComponent<Rigidbody2D>().AddForce((startPos - tempOwnPos) * MovementSpeed / 2);
     }
 
+    /// <summary>
+    /// Method to make the Enemy attack
+    /// </summary>
     private void Attack()
     {
         //Debug.Log("PLAYER ATTACKED");

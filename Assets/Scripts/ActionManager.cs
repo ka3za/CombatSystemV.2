@@ -33,6 +33,9 @@ public class ActionManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+    /// <summary>
+    /// UpdateList method will only run if there is something in the info list. 
+    /// </summary>
 	void Update ()
     {
         if(info.Count != 0)
@@ -44,7 +47,9 @@ public class ActionManager : MonoBehaviour {
            // Debug.Log("LIST IS EMPTY");
         }
 	}
-
+    /// <summary>
+    /// This method is to update the info list abilities effects. It will go though the list and search after the ability's DmgType. Then it will run through a switch and depending what DmgType it is, there will happen something with the Target.
+    /// </summary>
     private void UpdateList()
     {
         for (int i = 0; i < info.Count; i++)
@@ -152,7 +157,16 @@ public class ActionManager : MonoBehaviour {
         }
     }
 
+    public void NewTurn()
+    {
 
+    }
+
+    /// <summary>
+    /// This method adds an ActionType(Ability or weapon) and the GameObject that got hit by the Action, to the info list. Is the ability is already on a target. This method will do nothing.
+    /// </summary>
+    /// <param name="tempTarget"></param>
+    /// <param name="tempActionType"></param>
     public void Attacked(GameObject tempTarget, Action tempActionType)
     {
         bool allowed = true;

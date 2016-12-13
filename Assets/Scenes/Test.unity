@@ -537,6 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec93bee7fc5b224c90960c0d3494201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnManager: {fileID: 0}
   combatRange: 2.5
   meleeRange: 0.6
 --- !u!61 &299619005
@@ -647,48 +648,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 310397451}
---- !u!1001 &401475669
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -2.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840650066149040, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &441014843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1962,6 +1921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec93bee7fc5b224c90960c0d3494201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnManager: {fileID: 0}
   combatRange: 2.5
   meleeRange: 0.6
 --- !u!61 &1476409224
@@ -2130,6 +2090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1fdf4224887c64aabfbed4e9d2e950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnManager: {fileID: 0}
   playerCam: {fileID: 535577357}
   playerSprites:
   - {fileID: 21300002, guid: 56f27b06dfc313644b2bdfed11d6da27, type: 3}
@@ -2157,10 +2118,6 @@ MonoBehaviour:
   - {fileID: 1906050706566468, guid: 3f3b4c4051b8a404198df8851ebe2fed, type: 2}
   - {fileID: 1900601862546976, guid: 486a439d846071145be97eecd7bff078, type: 2}
   - {fileID: 1888734672105784, guid: 77429de77a04ad348ad4359772788e28, type: 2}
-  Abilities:
-  - {fileID: 1797038580360206, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-  - {fileID: 1797038580360206, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
-  - {fileID: 1797038580360206, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
   distance: 0.3
 --- !u!212 &1741364971
 SpriteRenderer:
