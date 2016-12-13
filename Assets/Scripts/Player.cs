@@ -43,10 +43,15 @@ public class Player : Entity {
     [SerializeField]
     private GameObject fireExplosionPrefab;
 
+
+
+    #region ActionHandling
     [SerializeField]
     private GameObject[] Weapons;
 
-    #region WeaponHandling
+    [SerializeField]
+    private GameObject[] Abilities;
+
     [SerializeField]
     private float distance = 0.3f;
 
@@ -56,12 +61,14 @@ public class Player : Entity {
     private GameObject atchPoint;
 
     //Weapon Slot
-    private GameObject weaponReff;
+    private GameObject actionReff;
 
-    private GameObject curWeapon;
+    private GameObject curAction;
 
     //Free or contrained weapon
     private bool clamped = false;
+
+    private bool actionSwitch = false;
     #endregion
 
     #region Stats
@@ -133,8 +140,7 @@ public class Player : Entity {
 
         currentClass = Classes.Tank;
         ClassTank();
-        curWeapon = (GameObject)Instantiate(Weapons[0]);
-        ChangeWeapon(curWeapon, true);
+        ChangeAction();
         UpdateStats();
 
         
@@ -160,27 +166,22 @@ public class Player : Entity {
 
     private void dropDownValueChangedHandler(Dropdown target)
     {
-        Destroy(weaponReff);
-        curWeapon = null;
         switch (target.value)
         {
             case 0:
                 currentClass = Classes.Tank;
                 ClassTank();
-                curWeapon = (GameObject)Instantiate(Weapons[0]);
-                ChangeWeapon(curWeapon, true);
+                ChangeAction();
                 break;
             case 1:
                 currentClass = Classes.Mage;
                 ClassMage();
-                curWeapon = (GameObject)Instantiate(Weapons[1]);
-                ChangeWeapon(curWeapon, true);
+                ChangeAction();
                 break;
             case 2:
                 currentClass = Classes.Hunter;
                 ClassHunter();
-                curWeapon = (GameObject)Instantiate(Weapons[2]);
-                ChangeWeapon(curWeapon, true);
+                ChangeAction();
                 break;
             default:
                 break;
@@ -214,8 +215,7 @@ public class Player : Entity {
                 break;
             default:
                 break;
-        }
-        
+        }  
     }
     
    /// <summary>
@@ -450,11 +450,16 @@ public class Player : Entity {
         }
     }
 
+    private Vector3 GetMousePosition()
+    {
+        return playerCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
+            Input.mousePosition.y, Input.mousePosition.z - playerCam.transform.position.z));
+    }
+
     private void ActionHandling()
     {
         //gets the mouse position on the screen
-        mousePosition = playerCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
-            Input.mousePosition.y, Input.mousePosition.z - playerCam.transform.position.z));
+        mousePosition = GetMousePosition();
 
         //mouseline
         Debug.DrawLine(transform.position, mousePosition, Color.red);
@@ -477,6 +482,12 @@ public class Player : Entity {
         atchPoint.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((end.y - transform.position.y),
             (end.x - transform.position.x)) * Mathf.Rad2Deg + 90);
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            actionSwitch = !actionSwitch;
+            ChangeAction();
+        }
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             clamped = !clamped;
@@ -484,12 +495,12 @@ public class Player : Entity {
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            AttachChildToPoint(weaponReff);
+            AttachChildToPoint(actionReff);
         }
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            DetachChildFromPoint(weaponReff);
+            DetachChildFromPoint(actionReff);
         }
     }
 
@@ -538,17 +549,59 @@ public class Player : Entity {
 
     }
 
-    private void ChangeWeapon(GameObject newWeapon, bool isClamped)
+    private void ChangeAction()
     {
-        if (weaponReff != null)
+        if (curAction != null)
         {
-            DetachChildFromPoint(weaponReff);
-            weaponReff = null;
+            DetachChildFromPoint(curAction);
+            Destroy(curAction);
+            curAction = null;
         }
-        
-        weaponReff = newWeapon;
-        AttachChildToPoint(weaponReff);
-        clamped = isClamped;
+
+        switch (currentClass)
+        {
+            case Classes.Hunter:
+                if (actionSwitch)
+                {
+                    curAction = Instantiate(Abilities[2]);
+                    clamped = false;
+                }
+                else
+                {
+                    curAction = Instantiate(Weapons[2]);
+                    clamped = true;
+                }
+                AttachChildToPoint(curAction);
+                break;
+            case Classes.Mage:
+                if (actionSwitch)
+                {
+                    curAction = Instantiate(Abilities[1]);
+                    clamped = false;
+                }
+                else
+                {
+                    curAction = Instantiate(Weapons[1]);
+                    clamped = true;
+                }
+                AttachChildToPoint(curAction);
+                break;
+            case Classes.Tank:
+                if (actionSwitch)
+                {
+                    curAction = Instantiate(Abilities[0]);
+                    clamped = true;
+                }
+                else
+                {
+                    curAction = Instantiate(Weapons[0]);
+                    clamped = true;
+                }
+                AttachChildToPoint(curAction);
+                break;
+            default:
+                break;
+        }
     }
 
     private void PrimeAbility()
