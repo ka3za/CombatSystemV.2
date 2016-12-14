@@ -495,20 +495,30 @@ public class Player : Entity {
             ChangeAction();
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetMouseButtonDown(0))
         {
-            clamped = !clamped;
+            UseAction();
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            AttachChildToPoint(actionReff);
-        }
+        //if (Input.GetKeyDown(KeyCode.J))
+        //{
+        //    clamped = !clamped;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            DetachChildFromPoint(actionReff);
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    AttachChildToPoint(actionReff);
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    DetachChildFromPoint(actionReff);
+        //}
+    }
+
+    private void UseAction()
+    {
+        curAction.GetComponentInChildren<Action>().Use();
     }
 
     private void AttachChildToPoint(GameObject newChild)
@@ -609,22 +619,6 @@ public class Player : Entity {
             default:
                 break;
         }
-    }
-
-    private void PrimeAbility()
-    {
-        //Sæt ability på action attacth point
-    }
-
-    private void UnprimeAbility()
-    {
-        //tag ability af action attach point
-        //attacth weapon
-    }
-
-    private void UsePrimedAction()
-    {
-        //kald action attacth point child Use()
     }
 
     private void UseAbility()

@@ -11,6 +11,6 @@ public class Weapon : Action {
 
     public override void Use()
     {
-        throw new NotImplementedException();
+        Debug.Log("Use on Weapon");
     }
 }
