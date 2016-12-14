@@ -2260,8 +2260,8 @@ MonoBehaviour:
   classText: {fileID: 910915649}
   healthText: {fileID: 511647113}
   energySourceText: {fileID: 1118477128}
-  moveCostText: {fileID: 0}
-  currentMovePointsUI: {fileID: 0}
+  moveCostText: {fileID: 1656634589}
+  currentMovePointsUI: {fileID: 1026180624}
   dropDown: {fileID: 1993205100}
   canvas: {fileID: 1340418142}
   fireExplosionPrefab: {fileID: 1000010919675218, guid: f02798efe7192be45a303e52a8941578,
