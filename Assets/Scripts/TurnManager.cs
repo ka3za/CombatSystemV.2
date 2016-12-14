@@ -22,6 +22,8 @@ public class TurnManager : MonoBehaviour
 
     private bool isLarger;
 
+    private bool isEqual;
+
     private bool listed = false;
 
     private int movedCount;
@@ -54,10 +56,18 @@ public class TurnManager : MonoBehaviour
 
             ListEnemy();
         }
-
         if (!playerTurn && !enemyActive)
         {
             ActivateEnemy();
+        }
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            for (int i = 0; i < enemiesSorted.Count; i++)
+            {
+                Debug.Log(enemiesSorted[i].ToString());
+                Debug.Log(enemiesSorted[movedCount]);
+                Debug.Log(movedCount);
+            }
         }
     }
 
@@ -86,10 +96,17 @@ public class TurnManager : MonoBehaviour
                     if (enemies[i].GetComponent<Enemy>().MovementSpeed < temp)
                     {
                         isLarger = false;
+                        isEqual = false;
                     }
-                    else
+                    else if (enemies[i].GetComponent<Enemy>().MovementSpeed > temp)
                     {
+                        isEqual = false;
                         isLarger = true;
+                    }
+                    else if(enemies[i].GetComponent<Enemy>().MovementSpeed == temp)
+                    {
+                        isEqual = true;
+                        isLarger = false;
                     }
 
                 }
@@ -99,6 +116,11 @@ public class TurnManager : MonoBehaviour
                     enemiesSorted.Add(enemies[i]);
                     enemies.RemoveAt(i);
 
+                }
+                else if(isEqual)
+                {
+                    enemiesSorted.Add(enemies[i]);
+                    enemies.RemoveAt(i);
                 }
             }
         }
@@ -112,7 +134,6 @@ public class TurnManager : MonoBehaviour
     {
         if (movedCount < enemiesSorted.Count)
         {
-            Debug.Log("ad");
             if (!enemiesSorted[movedCount].GetComponent<Enemy>().Activated)
             {
                 enemiesSorted[movedCount].GetComponent<Enemy>().Activated = true;

@@ -10,8 +10,6 @@ public class Player : Entity {
     [SerializeField]
     private Camera playerCam;
 
-    private GameObject turnManager;
-
 
     #region visual
     [SerializeField]
@@ -26,10 +24,20 @@ public class Player : Entity {
     private Text healthText;
     [SerializeField]
     private Text energySourceText;
-
+    [SerializeField]
     private Text moveCostText;
+    [SerializeField]
+    private Text currentMovePointsUI;
 
-    private Text currentMovePositionUI;
+    private bool isMoving = false;
+
+    private float currentMovePoints;
+
+    private float moveCost;
+
+    private Vector3 currentMousePosition;
+
+    private Vector3 moveTarget;
 
     [SerializeField]
     private Dropdown dropDown;
@@ -75,6 +83,7 @@ public class Player : Entity {
     private int armor;
     private float currentEnergy;
     private float maxEnergy;
+    private int movePoints;
 
     public int Stamina
     {
@@ -118,6 +127,12 @@ public class Player : Entity {
         get { return maxEnergy; }
         set { maxEnergy = value; }
     }
+
+    public int MovePoints
+    {
+        get { return movePoints; }
+        set { movePoints = value; }
+    }
     #endregion
 
     // Use this for initialization
@@ -127,6 +142,8 @@ public class Player : Entity {
         {
             dropDownValueChangedHandler(dropDown);
         });
+
+        turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
 
         //Action attatch point
         atchPoint = new GameObject("ActionAttachPoint");
@@ -144,13 +161,35 @@ public class Player : Entity {
 	void Update ()
     {
         MenuKeyHandling();
-
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+            {
+                turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Turnbased;
+            }
+            else
+            {
+                turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
+            }
+        }
         ActionHandling();
+
+        if(turnManager.GetComponent<TurnManager>().CurrentCombatMode != TurnManager.CombatMode.Turnbased)
+        {
+            currentMovePointsUI.text = "";
+        }
     }
 
     void FixedUpdate()
     {
-        RealTimeMovement();
+        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+        {
+            RealTimeMovement();
+        }
+        else
+        {
+            TurnBasedMovement();
+        }
     }
 
     void Destroy()
@@ -236,6 +275,8 @@ public class Player : Entity {
         CurrentHealth = Health;
         MaxEnergy = 100;
         CurrentEnergy = MaxEnergy;
+        MovePoints = 8;
+        currentMovePoints = MovePoints;
     }
 
     private void ClassMage()
@@ -251,6 +292,8 @@ public class Player : Entity {
         CurrentHealth = Health;
         MaxEnergy = (Intellect * 1.1f) + 100;
         CurrentEnergy = MaxEnergy;
+        MovePoints = 10;
+        currentMovePoints = MovePoints;
     }
 
     private void ClassHunter()
@@ -266,8 +309,9 @@ public class Player : Entity {
         CurrentHealth = Health;
         MaxEnergy = 100;
         CurrentEnergy = MaxEnergy;
+        MovePoints = 12;
+        currentMovePoints = MovePoints;
     }
-
     /// <summary>
     /// A method to handle keys to movement for the realtime combat mode
     /// </summary>
@@ -525,17 +569,44 @@ public class Player : Entity {
 
     private void TurnBasedMovement()
     {
+        if (turnManager.GetComponent<TurnManager>().playerTurn)
+        {
+            currentMovePointsUI.text = "Current MP: " + currentMovePoints + " / " + MovePoints;
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (!isMoving)
+                {
+                    if (currentMovePoints >= moveCost)
+                    {
+                        moveTarget = currentMousePosition;
+                        isMoving = true;
+                        currentMovePoints -= moveCost;
+                    }
+                }
 
+            }
+
+            if (transform.position != moveTarget && isMoving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, moveTarget, 5 * Time.deltaTime);
+            }
+            else
+            {
+                isMoving = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                EndTurn();
+            }
+
+        }
     }
 
     private void EndTurn()
     {
-
-    }
-
-    private void ReplenishPoints()
-    {
-
+        turnManager.GetComponent<TurnManager>().SwitchTurn();
+        currentMovePoints = MovePoints;
     }
 
     private void ChangeWeapon(GameObject newWeapon, bool isClamped)
@@ -595,5 +666,34 @@ public class Player : Entity {
 
         }
         base.OnDeath();
+    }
+
+    public void OnDrawGizmos()
+    {
+
+        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && turnManager.GetComponent<TurnManager>().playerTurn)
+        {
+            UnityEditor.Handles.color = Color.red;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, currentMovePoints / 2);
+            currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            currentMousePosition.z = 0;
+            moveCost = Mathf.Ceil(Vector3.Distance(transform.position, currentMousePosition) * 2);
+
+            if (Vector3.Distance(transform.position, currentMousePosition * 2) <= currentMovePoints)
+            {
+
+                moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);
+                moveCostText.text = "MP COST: " + moveCost;
+                UnityEditor.Handles.DrawLine(transform.position, currentMousePosition);
+            }
+            else
+            {
+                moveCostText.text = "";
+            }
+        }
+        else
+        {
+
+        }
     }
 }
