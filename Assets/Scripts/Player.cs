@@ -197,6 +197,10 @@ public class Player : Entity {
         dropDown.onValueChanged.RemoveAllListeners();
     }
 
+    /// <summary>
+    /// Depending on the target param. It will switch to one of the classes. And run the UpdateStats method.
+    /// </summary>
+    /// <param name="target"></param>
     private void dropDownValueChangedHandler(Dropdown target)
     {
         Destroy(weaponReff);
@@ -234,7 +238,7 @@ public class Player : Entity {
     }
 
     /// <summary>
-    /// Update health and energy
+    /// Updates health and energy for the Player
     /// </summary>
     public void UpdateStats()
     {      
@@ -486,6 +490,9 @@ public class Player : Entity {
         playerCam.GetComponent<Transform>().position = new Vector3(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y, -10);
     }
 
+    /// <summary>
+    /// Will handle all keys for menus.
+    /// </summary>
     private void MenuKeyHandling()
     {
         if(Input.GetKeyDown(KeyCode.C))
