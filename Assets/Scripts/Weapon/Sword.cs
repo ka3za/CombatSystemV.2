@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Sword : Weapon {
 
@@ -17,5 +18,10 @@ public class Sword : Weapon {
     public void Attack(int strength)
     {
 
+    }
+
+    public override void Use()
+    {
+        Debug.Log("Used Sword");
     }
 }

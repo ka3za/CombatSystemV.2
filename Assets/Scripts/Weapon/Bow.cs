@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Bow : Weapon {
 
@@ -16,5 +17,10 @@ public class Bow : Weapon {
     public void Attack(int agility)
     {
 
+    }
+
+    public override void Use()
+    {
+        Debug.Log("Used Bow");
     }
 }

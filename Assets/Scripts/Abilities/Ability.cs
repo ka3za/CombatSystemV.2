@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Ability : Action {
+public abstract class Ability : Action {
 
     private DamageType secondDmgType;
 
@@ -14,8 +14,5 @@ public class Ability : Action {
         set { secondDmgType = value; }
     }
 
-    public override void Use()
-    {
-        Debug.Log("Use on Ability");
-    }
+    public abstract override void Use();
 }

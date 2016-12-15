@@ -9,6 +9,9 @@ public class Entity : MonoBehaviour {
     private int movementSpeed;
     private int baseMovementSpeed;
 
+    [SerializeField]
+    protected GameObject turnManager;
+
     public float Health
     {
         get { return health; }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class ArrowStorm : Ability {
 
@@ -18,4 +19,8 @@ public class ArrowStorm : Ability {
 
     }
 
+    public override void Use()
+    {
+        Debug.Log("Used Arrow");
+    }
 }

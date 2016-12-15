@@ -2270,6 +2270,10 @@ MonoBehaviour:
   - {fileID: 1906050706566468, guid: 3f3b4c4051b8a404198df8851ebe2fed, type: 2}
   - {fileID: 1900601862546976, guid: 486a439d846071145be97eecd7bff078, type: 2}
   - {fileID: 1888734672105784, guid: 77429de77a04ad348ad4359772788e28, type: 2}
+  Abilities:
+  - {fileID: 1084928160203786, guid: 339d669d9cdd3f54a83ffe8cbd8860c3, type: 2}
+  - {fileID: 1797038580360206, guid: f5ef50b9e0a68604599117c5fc83c3fc, type: 2}
+  - {fileID: 1033420695751486, guid: 8712c1fc60c1eb0469cea0ca1e9b47f0, type: 2}
   distance: 0.3
 --- !u!212 &1741364971
 SpriteRenderer:

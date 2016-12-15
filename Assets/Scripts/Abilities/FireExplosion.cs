@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class FireExplosion : Ability
 {
@@ -44,5 +45,8 @@ public class FireExplosion : Ability
        
     }
 
-
+    public override void Use()
+    {
+        Debug.Log("Used Fire");
+    }
 }

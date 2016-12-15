@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Staff : Weapon {
 
@@ -16,5 +17,10 @@ public class Staff : Weapon {
     public void Attack()
     {
 
+    }
+
+    public override void Use()
+    {
+        Debug.Log("Used Staff");
     }
 }

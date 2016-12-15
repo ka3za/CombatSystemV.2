@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class ShieldBass : Ability {
 
@@ -16,5 +17,10 @@ public class ShieldBass : Ability {
     public void Attack(int stamina, Vector2 playerPos, Vector2 mousePos)
     {
 
+    }
+
+    public override void Use()
+    {
+        Debug.Log("Used Shield");
     }
 }
