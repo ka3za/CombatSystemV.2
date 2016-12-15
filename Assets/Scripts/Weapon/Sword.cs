@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sword : MonoBehaviour {
+public class Sword : Weapon {
 
 	// Use this for initialization
 	void Start () {
