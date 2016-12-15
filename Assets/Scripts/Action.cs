@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public abstract class Action : MonoBehaviour {
 
@@ -26,6 +27,7 @@ public abstract class Action : MonoBehaviour {
     private bool knockbacked;
 
     private float dotTimeTick;
+
     private float dotTimeCooldown;
 
     private float slowAmount;
@@ -109,6 +111,11 @@ public abstract class Action : MonoBehaviour {
     public virtual void UpdateAction(int PrimaryStat)
     {
 
+    }
+
+    public void EnterTrigger(Collider2D c)
+    {
+        Debug.Log(this + "Test");
     }
 
     public abstract void Use();

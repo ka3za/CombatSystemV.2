@@ -4,10 +4,11 @@ using System;
 
 public class FireExplosion : Ability
 {
-    // Use this for initialization
     void Start()
     {
         ActionMan = GameObject.FindGameObjectWithTag("ActionManager");
+
+
     }
 
     // Update is called once per frame
