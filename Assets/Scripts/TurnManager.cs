@@ -21,7 +21,7 @@ public class TurnManager : MonoBehaviour
     private int temp;
 
     private bool isLarger;
-
+    
     private bool isEqual;
 
     private bool listed = false;
