@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public abstract class Action : MonoBehaviour {
@@ -31,6 +32,13 @@ public abstract class Action : MonoBehaviour {
     private float dotTimeCooldown;
 
     private float slowAmount;
+
+    protected List<GameObject> enemies;
+
+    void Awake()
+    {
+        enemies = new List<GameObject>();
+    }
 
     public float SlowAmount
     {
@@ -113,13 +121,15 @@ public abstract class Action : MonoBehaviour {
 
     }
 
-    public void EnterTrigger(Collider2D c)
+    public void EnterTrigger(GameObject c)
     {
+        enemies.Add(c);
         Debug.Log(c.ToString() + " Entered into " + this);
     }
 
-    public void ExitTrigger(Collider2D c)
+    public void ExitTrigger(GameObject c)
     {
+        enemies.Remove(c);
         Debug.Log(c.ToString() + " Exited outof " + this);
     }
 

@@ -8,7 +8,7 @@ public class ActionBoxTriggerScript : MonoBehaviour {
     {
         if (c.tag == "Enemy")
         {
-            gameObject.GetComponentInParent<Action>().EnterTrigger(c); 
+            gameObject.GetComponentInParent<Action>().EnterTrigger(c.gameObject); 
         }
     }
 
@@ -16,7 +16,7 @@ public class ActionBoxTriggerScript : MonoBehaviour {
     {
         if (c.tag == "Enemy")
         {
-            gameObject.GetComponentInParent<Action>().ExitTrigger(c); 
+            gameObject.GetComponentInParent<Action>().ExitTrigger(c.gameObject); 
         }
     }
 }
