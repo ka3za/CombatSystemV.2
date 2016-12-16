@@ -44,6 +44,12 @@ public class Player : Entity {
 
     [SerializeField]
     private Canvas canvas;
+
+    public float CurrentMovePoints
+    { 
+        get { return currentMovePoints; }
+        set { currentMovePoints = value; }
+    }
     #endregion
 
     private float diagonalNerf = 0.75f;
@@ -280,7 +286,7 @@ public class Player : Entity {
         MaxEnergy = 100;
         CurrentEnergy = MaxEnergy;
         MovePoints = 8;
-        currentMovePoints = MovePoints;
+        CurrentMovePoints = MovePoints;
     }
 
     private void ClassMage()
@@ -297,7 +303,7 @@ public class Player : Entity {
         MaxEnergy = (Intellect * 1.1f) + 100;
         CurrentEnergy = MaxEnergy;
         MovePoints = 10;
-        currentMovePoints = MovePoints;
+        CurrentMovePoints = MovePoints;
     }
 
     private void ClassHunter()
@@ -314,7 +320,7 @@ public class Player : Entity {
         MaxEnergy = 100;
         CurrentEnergy = MaxEnergy;
         MovePoints = 12;
-        currentMovePoints = MovePoints;
+        CurrentMovePoints = MovePoints;
     }
     /// <summary>
     /// A method to handle keys to movement for the realtime combat mode
@@ -599,16 +605,16 @@ public class Player : Entity {
     {
         if (turnManager.GetComponent<TurnManager>().playerTurn)
         {
-            currentMovePointsUI.text = "Current MP: " + currentMovePoints + " / " + MovePoints;
+            currentMovePointsUI.text = "Current MP: " + CurrentMovePoints + " / " + MovePoints;
             if (Input.GetMouseButtonDown(1))
             {
                 if (!isMoving)
                 {
-                    if (currentMovePoints >= moveCost)
+                    if (CurrentMovePoints >= moveCost)
                     {
                         moveTarget = currentMousePosition;
                         isMoving = true;
-                        currentMovePoints -= moveCost;
+                        CurrentMovePoints -= moveCost;
                     }
                 }
 
@@ -625,16 +631,10 @@ public class Player : Entity {
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                EndTurn();
+                turnManager.GetComponent<ActionManager>().NewTurn();
             }
 
         }
-    }
-
-    private void EndTurn()
-    {
-        turnManager.GetComponent<TurnManager>().SwitchTurn();
-        currentMovePoints = MovePoints;
     }
 
     private void ChangeAction()
@@ -728,12 +728,12 @@ public class Player : Entity {
         if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && turnManager.GetComponent<TurnManager>().playerTurn)
         {
             UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, currentMovePoints / 2);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, CurrentMovePoints / 2);
             currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentMousePosition.z = 0;
             moveCost = Mathf.Ceil(Vector3.Distance(transform.position, currentMousePosition) * 2);
 
-            if (Vector3.Distance(transform.position, currentMousePosition * 2) <= currentMovePoints)
+            if (Vector3.Distance(transform.position, currentMousePosition * 2) <= CurrentMovePoints)
             {
 
                 moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);

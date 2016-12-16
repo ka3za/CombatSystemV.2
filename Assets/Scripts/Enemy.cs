@@ -26,6 +26,33 @@ public class Enemy : Entity {
 
         set { activated = value; }
     }
+
+    public float CurrentMovePoints
+    {
+        get
+        {
+            return currentMovePoints;
+        }
+
+        set
+        {
+            currentMovePoints = value;
+        }
+    }
+
+    public int MovePoints
+    {
+        get
+        {
+            return movePoints;
+        }
+
+        set
+        {
+            movePoints = value;
+        }
+    }
+
     // Use this for initialization
     void Start () {
 
@@ -33,7 +60,7 @@ public class Enemy : Entity {
 
         startPos = transform.position;
 
-        currentMovePoints = movePoints;
+        CurrentMovePoints = MovePoints;
 
         player = GameObject.FindGameObjectWithTag("Player");
 	
@@ -54,15 +81,15 @@ public class Enemy : Entity {
         {
             Debug.Log(1);
             turnManager.GetComponent<TurnManager>().DeactivateEnemy();
-            currentMovePoints = movePoints;
+            CurrentMovePoints = MovePoints;
             activated = false;
         }
 
-        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && currentMovePoints <= 0 && !isMoving && activated)
+        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && CurrentMovePoints <= 0 && !isMoving && activated)
         {
             Debug.Log(2);
             turnManager.GetComponent<TurnManager>().DeactivateEnemy();
-            currentMovePoints = movePoints;
+            CurrentMovePoints = MovePoints;
             activated = false;
         }
     }
@@ -100,26 +127,26 @@ public class Enemy : Entity {
 
             }
 
-            if (activated && currentMovePoints != 0 && !isMoving)
+            if (activated && CurrentMovePoints != 0 && !isMoving)
             {
                 Debug.Log("Blargh1");
                 float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
 
                 if (Vector2.Distance(player.transform.position, transform.position) >= 2f)
                 {
-                    currentMovePoints = 0;
+                    CurrentMovePoints = 0;
                 }
                 else if (Vector2.Distance(player.transform.position, transform.position) >= 1.5f)
                 {
-                    currentMovePoints -= 6;
+                    CurrentMovePoints -= 6;
                 }
                 else if (Vector2.Distance(player.transform.position, transform.position) >= 1f)
                 {
-                    currentMovePoints -= 4;
+                    CurrentMovePoints -= 4;
                 }
                 else if (Vector2.Distance(player.transform.position, transform.position) >= 0.5f)
                 {
-                    currentMovePoints -= 2;
+                    CurrentMovePoints -= 2;
                 }
                 isMoving = true;
 
@@ -159,7 +186,7 @@ public class Enemy : Entity {
         }
         else
         {
-            currentMovePoints -= 2;
+            CurrentMovePoints -= 2;
         }
     }
 }

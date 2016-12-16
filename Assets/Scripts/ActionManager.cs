@@ -159,7 +159,8 @@ public class ActionManager : MonoBehaviour {
 
     public void NewTurn()
     {
-
+        GetComponent<TurnManager>().SwitchTurn();
+        GetComponent<TurnManager>().ReplenishActionPoints();
     }
 
     /// <summary>

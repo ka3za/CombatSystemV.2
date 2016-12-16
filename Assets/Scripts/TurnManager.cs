@@ -142,10 +142,25 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            SwitchTurn();
-            movedCount = 0;
+            GetComponent<ActionManager>().NewTurn();
         }
 
+    }
+
+    public void ReplenishActionPoints()
+    {
+        if(playerTurn)
+        {
+            player.GetComponent<Player>().CurrentMovePoints = player.GetComponent<Player>().MovePoints;
+        }
+        else
+        {
+            for (int i = 0; i < enemiesSorted.Count; i++)
+            {
+                enemiesSorted[i].GetComponent<Enemy>().CurrentMovePoints = enemiesSorted[0].GetComponent<Enemy>().MovePoints;
+            }
+            movedCount = 0;
+        }
     }
 
     public void DeactivateEnemy()
