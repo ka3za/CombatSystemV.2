@@ -6,6 +6,17 @@ public class ActionBoxTriggerScript : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D c)
     {
-        gameObject.GetComponentInParent<Action>().EnterTrigger(c);
+        if (c.tag == "Enemy")
+        {
+            gameObject.GetComponentInParent<Action>().EnterTrigger(c); 
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D c)
+    {
+        if (c.tag == "Enemy")
+        {
+            gameObject.GetComponentInParent<Action>().ExitTrigger(c); 
+        }
     }
 }

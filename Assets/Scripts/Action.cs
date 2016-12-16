@@ -115,7 +115,12 @@ public abstract class Action : MonoBehaviour {
 
     public void EnterTrigger(Collider2D c)
     {
-        Debug.Log(this + "Test");
+        Debug.Log(c.ToString() + " Entered into " + this);
+    }
+
+    public void ExitTrigger(Collider2D c)
+    {
+        Debug.Log(c.ToString() + " Exited outof " + this);
     }
 
     public abstract void Use();
