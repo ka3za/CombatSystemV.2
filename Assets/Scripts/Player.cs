@@ -568,7 +568,7 @@ public class Player : Entity {
 
     private void UseAction()
     {
-        curAction.GetComponentInChildren<Action>().Use();
+        curAction.GetComponentInChildren<Action>().Use(strength, intellect, agility);
     }
 
     private void AttachChildToPoint(GameObject newChild)

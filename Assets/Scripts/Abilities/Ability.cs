@@ -14,5 +14,5 @@ public abstract class Ability : Action {
         set { secondDmgType = value; }
     }
 
-    public abstract override void Use();
+    public abstract override void Use(float _str, float _int, float _agi);
 }

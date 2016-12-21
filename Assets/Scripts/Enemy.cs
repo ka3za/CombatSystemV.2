@@ -58,6 +58,8 @@ public class Enemy : Entity {
 
         MovementSpeed = 150;
 
+        CurrentHealth = 180;
+
         startPos = transform.position;
 
         CurrentMovePoints = MovePoints;
@@ -91,6 +93,13 @@ public class Enemy : Entity {
             turnManager.GetComponent<TurnManager>().DeactivateEnemy();
             CurrentMovePoints = MovePoints;
             activated = false;
+        }
+
+        if (CurrentHealth <= 0)
+        {
+            //Et hack fix til at tage enemy ud af enemies listen
+            transform.position = new Vector3(50000, 0);
+            OnDeath();
         }
     }
 

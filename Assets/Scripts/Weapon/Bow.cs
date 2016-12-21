@@ -19,7 +19,7 @@ public class Bow : Weapon {
 
     }
 
-    public override void Use()
+    public override void Use(float _str, float _int, float _agi)
     {
         Debug.Log("Used Bow");
     }

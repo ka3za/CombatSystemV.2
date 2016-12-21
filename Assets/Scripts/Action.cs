@@ -133,5 +133,5 @@ public abstract class Action : MonoBehaviour {
         Debug.Log(c.ToString() + " Exited outof " + this);
     }
 
-    public abstract void Use();
+    public abstract void Use(float _str, float _int, float _agi);
 }

@@ -43,12 +43,13 @@ public class Entity : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+    {
+        
 	}
 
     public virtual void OnDeath()
     {
-
+        Destroy(gameObject,0.5f);
     }
 }

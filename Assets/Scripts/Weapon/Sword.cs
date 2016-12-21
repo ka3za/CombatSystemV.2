@@ -18,11 +18,11 @@ public class Sword : Weapon {
 
     }
 
-    public override void Use()
+    public override void Use(float _str, float _int, float _agi)
     {
         foreach (GameObject item in enemies)
         {
-            item.GetComponent<Enemy>().Health -= 300;
+            item.GetComponent<Enemy>().CurrentHealth -= 300;
         }
         Debug.Log("Used Sword");
     }
