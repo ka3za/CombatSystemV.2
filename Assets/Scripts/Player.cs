@@ -54,9 +54,6 @@ public class Player : Entity {
 
     private float diagonalNerf = 0.75f;
 
-    [SerializeField]
-    private GameObject fireExplosionPrefab;
-
 
 
     #region ActionHandling
@@ -711,8 +708,6 @@ public class Player : Entity {
                 break;
             case Classes.Mage:
                 tempPos.z = 0.1f;
-                GameObject fireExplosionPrefabTemp = Instantiate(Resources.Load("FireExplosionSprite") as GameObject, tempPos, Quaternion.identity) as GameObject;
-                fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(intellect);
                 break;
             case Classes.Tank:
                 tempPos.z = 0.1f; 
