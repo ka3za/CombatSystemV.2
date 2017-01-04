@@ -8,6 +8,8 @@ public class Entity : MonoBehaviour {
     private float currentHealth;
     private int movementSpeed;
     private int baseMovementSpeed;
+    private bool isSlowed;
+    private bool isStunned;
 
     [SerializeField]
     protected GameObject turnManager;
@@ -36,6 +38,20 @@ public class Entity : MonoBehaviour {
         set { baseMovementSpeed = value; }
     }
 
+    public bool IsSlowed
+    {
+        get { return isSlowed; }
+        set { isSlowed = value; }
+    }
+
+    public bool IsStunned
+    {
+        get { return isStunned; }
+        set { isStunned = value; }
+    }
+
+
+
 
     // Use this for initialization
     void Start () {
@@ -47,9 +63,11 @@ public class Entity : MonoBehaviour {
     {
         
 	}
+    
 
     public virtual void OnDeath()
     {
-        Destroy(gameObject,0.5f);
+        gameObject.SetActive(false);
+        //Destroy(gameObject,0.5f); 
     }
 }

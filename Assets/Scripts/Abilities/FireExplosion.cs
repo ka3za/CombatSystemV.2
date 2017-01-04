@@ -6,7 +6,7 @@ public class FireExplosion : Ability
 {
     void Start()
     {
-        ActionMan = GameObject.FindGameObjectWithTag("ActionManager");
+        
 
 
     }
@@ -14,7 +14,11 @@ public class FireExplosion : Ability
     // Update is called once per frame
     void Update()
     {
-       
+        TimeToDestroy -= Time.deltaTime;
+        if(TimeToDestroy <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public override void UpdateAction(int PrimaryStat)
@@ -25,24 +29,36 @@ public class FireExplosion : Ability
         AbilityCooldown = 3;
         Dmg = 1.5f * PrimaryStat;
         DmgType = DamageType.DOT;
+        SecondDmgType = DamageType.SLOW;
+        ActionPos = transform.position;
+        IsAbility = true;
+    }
+
+    private void MinorUpdate()
+    {
         DotTimeTick = 3;
         DotTimeCooldown = 1;
-        SecondDmgType = DamageType.SLOW;
-        Knockbacked = false;
-        SlowAmount = 3;
-        AbilityPos = transform.position;
-        IsAbility = true;
+        SlowTimer = 3;
+        AbilityEffectOneUsed = false;
+        AbilityEffectTwoUsed = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(ActionMan != null)
+        if(other.tag == "Player" || other.tag == "Enemy")
         {
-            ActionMan.GetComponent<ActionManager>().Attacked(other.gameObject, this);
-        }else
-        {
-            Debug.Log("Something is wrong with ActionMan");
+            ActionMan = GameObject.FindGameObjectWithTag("ActionManager");
+            if (ActionMan != null)
+            {
+                MinorUpdate();
+                ActionMan.GetComponent<ActionManager>().Attacked(other.gameObject, this);
+            }
+            else
+            {
+                Debug.Log("Something is wrong with ActionMan");
+            }
         }
+        
        
     }
 

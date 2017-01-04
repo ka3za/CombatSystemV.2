@@ -6,6 +6,9 @@ public class Sword : Weapon {
 
     void Start()
     {
+        ActionMan = GameObject.FindGameObjectWithTag("ActionManager");
+        DmgType = DamageType.KNOCKBACK;
+        IsAbility = false;
     }
 
     // Update is called once per frame
@@ -22,7 +25,10 @@ public class Sword : Weapon {
     {
         foreach (GameObject item in enemies)
         {
-            item.GetComponent<Enemy>().CurrentHealth -= 300;
+            item.GetComponent<Enemy>().CurrentHealth -= _str;
+            ActionPos = transform.position;
+            ActionMan.GetComponent<ActionManager>().Attacked(item, this);
+
         }
         Debug.Log("Used Sword");
     }

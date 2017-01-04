@@ -21,17 +21,19 @@ public abstract class Action : MonoBehaviour {
 
     private float modifier;
 
-    private Vector3 abilityPos;
+    private Vector3 actionPos;
 
     private bool isAbility;
-
-    private bool knockbacked;
 
     private float dotTimeTick;
 
     private float dotTimeCooldown;
 
-    private float slowAmount;
+    private float slowTimer;
+    private float stunTimer;
+
+    private bool abilityEffectOneUsed;
+    private bool abilityEffectTwoUsed;
 
     protected List<GameObject> enemies;
 
@@ -40,17 +42,17 @@ public abstract class Action : MonoBehaviour {
         enemies = new List<GameObject>();
     }
 
-    public float SlowAmount
+    public float SlowTimer
     {
-        get { return slowAmount; }
-        set { slowAmount = value; }
+        get { return slowTimer; }
+        set { slowTimer = value; }
+    }
+    public float StunTimer
+    {
+        get { return stunTimer; }
+        set { stunTimer = value; }
     }
 
-    public bool Knockbacked
-    {
-        get { return knockbacked; }
-        set { knockbacked = value; }
-    }
 
     public float DotTimeTick
     {
@@ -58,11 +60,14 @@ public abstract class Action : MonoBehaviour {
         set { dotTimeTick = value; }
     }
 
+
     public float DotTimeCooldown
     {
         get { return dotTimeCooldown; }
         set { dotTimeCooldown = value; }
     }
+
+
 
     public DamageType DmgType
     {
@@ -104,16 +109,27 @@ public abstract class Action : MonoBehaviour {
         set { timeToDestroy = value; }
     }
 
-    public Vector3 AbilityPos
+    public Vector3 ActionPos
     {
-        get { return abilityPos; }
-        set { abilityPos = value; }
+        get { return actionPos; }
+        set { actionPos = value; }
     }
 
     public bool IsAbility
     {
         get { return isAbility; }
         set { isAbility = value; }
+    }
+
+    public bool AbilityEffectOneUsed
+    {
+        get { return abilityEffectOneUsed; }
+        set { abilityEffectOneUsed = value; }
+    }
+    public bool AbilityEffectTwoUsed
+    {
+        get { return abilityEffectTwoUsed; }
+        set { abilityEffectTwoUsed = value; }
     }
 
     public virtual void UpdateAction(int PrimaryStat)

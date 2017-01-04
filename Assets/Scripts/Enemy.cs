@@ -56,7 +56,9 @@ public class Enemy : Entity {
     // Use this for initialization
     void Start () {
 
-        MovementSpeed = 150;
+        MovementSpeed = 160;
+
+        BaseMovementSpeed = 160;
 
         CurrentHealth = 180;
 
@@ -65,35 +67,43 @@ public class Enemy : Entity {
         CurrentMovePoints = MovePoints;
 
         player = GameObject.FindGameObjectWithTag("Player");
+
+        IsSlowed = false;
+
+        IsStunned = false;
 	
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (CheckDistanceToPlayer(combatRange))
+        if(IsStunned == false)
         {
-            Movement();
-        }
-        else if (Vector2.Distance(startPos, transform.position) >= 0.1f && turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
-        {
-            BackToSpawn();
-        }
-        else if (CheckDistanceToPlayer(combatRange) == false && turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && activated)
-        {
-            Debug.Log(1);
-            turnManager.GetComponent<TurnManager>().DeactivateEnemy();
-            CurrentMovePoints = MovePoints;
-            activated = false;
-        }
+            if (CheckDistanceToPlayer(combatRange))
+            {
+                Movement();
+            }
+            else if (Vector2.Distance(startPos, transform.position) >= 0.1f && turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+            {
+                BackToSpawn();
+            }
+            else if (CheckDistanceToPlayer(combatRange) == false && turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && activated)
+            {
+                Debug.Log(1);
+                turnManager.GetComponent<TurnManager>().DeactivateEnemy();
+                CurrentMovePoints = MovePoints;
+                activated = false;
+            }
 
-        if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && CurrentMovePoints <= 0 && !isMoving && activated)
-        {
-            Debug.Log(2);
-            turnManager.GetComponent<TurnManager>().DeactivateEnemy();
-            CurrentMovePoints = MovePoints;
-            activated = false;
+            if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && CurrentMovePoints <= 0 && !isMoving && activated)
+            {
+                Debug.Log(2);
+                turnManager.GetComponent<TurnManager>().DeactivateEnemy();
+                CurrentMovePoints = MovePoints;
+                activated = false;
+            }
         }
+       
 
         if (CurrentHealth <= 0)
         {
@@ -125,7 +135,7 @@ public class Enemy : Entity {
         }
         else if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
         {
-            GetComponent<Rigidbody2D>().AddForce((player.transform.position - transform.position) * MovementSpeed / 2);
+            GetComponent<Rigidbody2D>().AddForce((player.transform.position - transform.position).normalized * MovementSpeed);
         }
         else if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased)
         {
@@ -181,7 +191,7 @@ public class Enemy : Entity {
     private void BackToSpawn()
     {
         Vector2 tempOwnPos = transform.position;
-        GetComponent<Rigidbody2D>().AddForce((startPos - tempOwnPos) * MovementSpeed / 2);
+        GetComponent<Rigidbody2D>().AddForce((startPos - tempOwnPos) * MovementSpeed);
     }
 
     /// <summary>

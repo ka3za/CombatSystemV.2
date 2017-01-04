@@ -160,7 +160,8 @@ public class Player : Entity {
 
         //Action attatch point
         atchPoint = new GameObject("ActionAttachPoint");
-
+        IsSlowed = false;
+        IsStunned = false;
         currentClass = Classes.Tank;
         ClassTank();
         ChangeAction();
@@ -172,24 +173,33 @@ public class Player : Entity {
 	// Update is called once per frame
 	void Update ()
     {
-        MenuKeyHandling();
-        if (Input.GetKeyDown(KeyCode.P))
+        if(IsStunned == false)
         {
-            if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+            MenuKeyHandling();
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Turnbased;
+                if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+                {
+                    turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Turnbased;
+                }
+                else
+                {
+                    turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
+                }
             }
-            else
-            {
-                turnManager.GetComponent<TurnManager>().CurrentCombatMode = TurnManager.CombatMode.Realtime;
-            }
-        }
-        ActionHandling();
+            ActionHandling();
 
-        if(turnManager.GetComponent<TurnManager>().CurrentCombatMode != TurnManager.CombatMode.Turnbased)
-        {
-            currentMovePointsUI.text = "";
+            if (turnManager.GetComponent<TurnManager>().CurrentCombatMode != TurnManager.CombatMode.Turnbased)
+            {
+                currentMovePointsUI.text = "";
+            }
         }
+
+        if (CurrentHealth <= 0)
+        {
+            OnDeath();
+        }
+
     }
 
     void FixedUpdate()
@@ -275,10 +285,10 @@ public class Player : Entity {
     private void ClassTank()
     {
         stamina = 200;
-        strength = 3;
+        strength = 15;
         intellect = 0;
         agility = 0;
-        armor = 10;
+        armor = 50;
         BaseMovementSpeed = 120;
         MovementSpeed = BaseMovementSpeed;
         Health = (Stamina * 1.5f) + 10;
@@ -311,8 +321,8 @@ public class Player : Entity {
         stamina = 105;
         strength = 0;
         intellect = 0;
-        agility = 10;
-        armor = 5;
+        agility = 25;
+        armor = 10;
         BaseMovementSpeed = 170;
         MovementSpeed = BaseMovementSpeed;
         Health = (Stamina * 1.5f) + 10;
@@ -694,17 +704,20 @@ public class Player : Entity {
 
     private void UseAbility()
     {
+        Vector3 tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         switch (currentClass)
         {
             case Classes.Hunter:
                 break;
             case Classes.Mage:
-                Vector3 tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 tempPos.z = 0.1f;
-                GameObject fireExplosionPrefabTemp = Instantiate(fireExplosionPrefab, tempPos, Quaternion.identity) as GameObject;
+                GameObject fireExplosionPrefabTemp = Instantiate(Resources.Load("FireExplosionSprite") as GameObject, tempPos, Quaternion.identity) as GameObject;
                 fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(intellect);
                 break;
             case Classes.Tank:
+                tempPos.z = 0.1f; 
+                 GameObject shieldBashPrefabTemp = Instantiate(Resources.Load("ShieldBashSprite") as GameObject, transform.position, Quaternion.identity) as GameObject;
+                shieldBashPrefabTemp.GetComponent<ShieldBass>().UpdateAction(strength);
                 break;
             default:
                 break;
