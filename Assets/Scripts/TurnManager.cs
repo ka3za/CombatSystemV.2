@@ -85,7 +85,7 @@ public class TurnManager : MonoBehaviour
 
     private void ListEnemy()
     {
-
+        //This function sorts the enemies based on their movementspeed. The one with the highest movespeed is placed as the first in the list
         if (enemies.Count != 0)
         {
             for (int i = 0; i < enemies.Count; i++)
@@ -117,6 +117,7 @@ public class TurnManager : MonoBehaviour
                     enemies.RemoveAt(i);
 
                 }
+                //If all enemies have the same amount of movespeed they are sorted as they are in the enemies list
                 else if(isEqual)
                 {
                     enemiesSorted.Add(enemies[i]);
@@ -132,6 +133,7 @@ public class TurnManager : MonoBehaviour
 
     private void ActivateEnemy()
     {
+        //The enemies are activated one of a time till all have used their turn. Then the turn switches to the player
         if (movedCount < enemiesSorted.Count)
         {
             if (!enemiesSorted[movedCount].GetComponent<Enemy>().Activated)
@@ -149,6 +151,7 @@ public class TurnManager : MonoBehaviour
 
     public void ReplenishActionPoints()
     {
+        //This turn replenishes all of the enemies and players movepoints depending on who ended their turn
         if(playerTurn)
         {
             player.GetComponent<Player>().CurrentMovePoints = player.GetComponent<Player>().MovePoints;

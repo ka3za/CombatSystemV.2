@@ -631,9 +631,11 @@ public class Player : Entity
     {
         if (turnManager.GetComponent<TurnManager>().playerTurn)
         {
+            //Sets the UI text to tell how many movementpoints the player have left out of the maximum amount the player can have
             currentMovePointsUI.text = "Current MP: " + CurrentMovePoints + " / " + MovePoints;
             if (Input.GetMouseButtonDown(1))
             {
+                //If the player is not moving and has enough movepoints to move to the desired location the program will deduct the cost from the currentMovePoints variable and set isMoving to true
                 if (!isMoving)
                 {
                     if (CurrentMovePoints >= moveCost)
@@ -648,6 +650,7 @@ public class Player : Entity
 
             if (transform.position != moveTarget && isMoving)
             {
+                //The player will start moving towards the target if the the player didn't click on the players current position
                 transform.position = Vector3.MoveTowards(transform.position, moveTarget, 5 * Time.deltaTime);
             }
             else
@@ -761,13 +764,14 @@ public class Player : Entity
 
         if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && turnManager.GetComponent<TurnManager>().playerTurn)
         {
+            //Saves the point on the map where the mouse is hovering over while it's the players turn in turnbased mode
             currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentMousePosition.z = 0;
             moveCost = Mathf.Ceil(Vector3.Distance(transform.position, currentMousePosition) * 2);
 
             if (Vector3.Distance(transform.position, currentMousePosition * 2) <= CurrentMovePoints)
             {
-
+                //Makes the moveCostText follow the mouse position if inside an area where the player has enough movepoints to move
                 moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);
                 moveCostText.text = "MP COST: " + moveCost;
             }

@@ -148,6 +148,7 @@ public class Enemy : Entity
         }
         else if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased)
         {
+            //stops the enemy if it's moving when transitioning from realtime to turnbased
             if (!activated && GetComponent<Rigidbody2D>().velocity != new Vector2(0, 0))
             {
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -157,7 +158,7 @@ public class Enemy : Entity
 
             if (activated && CurrentMovePoints != 0 && !isMoving)
             {
-                Debug.Log("Blargh1");
+                //Calculates the distance between the player and enemy and subtracts the required amount of movepoints needed in order to move
                 float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
 
                 if (Vector2.Distance(player.transform.position, transform.position) >= 2f)
@@ -178,13 +179,11 @@ public class Enemy : Entity
                 }
                 isMoving = true;
 
-                Debug.Log(distanceToPlayer);
             }
             else if (activated && isMoving)
             {
+                //Moves the enemy
                 transform.position = Vector2.MoveTowards(transform.position, player.transform.position, 0.5f * Time.deltaTime);
-                Debug.Log("dims");
-                Debug.Log(Vector2.Distance(player.transform.position, transform.position));
                 if (Vector2.Distance(transform.position, player.transform.position) <= 0.6f)
                 {
                     isMoving = false;
@@ -219,6 +218,7 @@ public class Enemy : Entity
         }
         else
         {
+            //The enemy attacks if it has enough movepoints
             if (CurrentMovePoints >= 2)
             {
                 CurrentMovePoints -= 2;
