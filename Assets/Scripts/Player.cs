@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Player : Entity {
 
@@ -725,7 +726,7 @@ public class Player : Entity {
     {
         if (CurrentHealth <= 0)
         {
-
+            SceneManager.LoadScene("Menu");
         }
         base.OnDeath();
     }
