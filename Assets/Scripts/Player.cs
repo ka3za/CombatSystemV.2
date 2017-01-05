@@ -47,6 +47,10 @@ public class Player : Entity
     [SerializeField]
     private Canvas canvas;
 
+    private int lineCount = 100;
+
+    private Material material;
+
     public float CurrentMovePoints
     {
         get { return currentMovePoints; }
@@ -199,6 +203,7 @@ public class Player : Entity
             OnDeath();
         }
 
+        ShowTravelLimit();
     }
 
     void FixedUpdate()
@@ -563,7 +568,7 @@ public class Player : Entity
             }
             else
             {
-                if(CurrentMovePoints >= 2)
+                if (CurrentMovePoints >= 2)
                 {
                     UseAction();
                     CurrentMovePoints -= 2;
@@ -751,13 +756,11 @@ public class Player : Entity
         base.OnDeath();
     }
 
-    public void OnDrawGizmos()
+    private void ShowTravelLimit()
     {
 
         if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased && turnManager.GetComponent<TurnManager>().playerTurn)
         {
-            UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, CurrentMovePoints / 2);
             currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentMousePosition.z = 0;
             moveCost = Mathf.Ceil(Vector3.Distance(transform.position, currentMousePosition) * 2);
@@ -767,7 +770,6 @@ public class Player : Entity
 
                 moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);
                 moveCostText.text = "MP COST: " + moveCost;
-                UnityEditor.Handles.DrawLine(transform.position, currentMousePosition);
             }
             else
             {
@@ -776,7 +778,20 @@ public class Player : Entity
         }
         else
         {
-
+            moveCostText.text = "";
         }
+    }
+
+    public void OnDrawGizmos()
+    {
+
+#if Unity_Editor
+            UnityEditor.Handles.color = Color.red;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, CurrentMovePoints / 2);
+#endif
+#if Unity_Editor
+                UnityEditor.Handles.DrawLine(transform.position, currentMousePosition);
+#endif  
+
     }
 }
