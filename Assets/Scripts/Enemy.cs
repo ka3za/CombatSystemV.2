@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : Entity {
-    
+public class Enemy : Entity
+{
+
     private GameObject player;
 
     private Vector2 startPos;
@@ -57,7 +58,8 @@ public class Enemy : Entity {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         MovementSpeed = 160;
 
@@ -76,13 +78,13 @@ public class Enemy : Entity {
         IsStunned = false;
 
         meleeCD = 1.5f;
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-        if(IsStunned == false)
+        if (IsStunned == false)
         {
             if (CheckDistanceToPlayer(combatRange))
             {
@@ -107,8 +109,10 @@ public class Enemy : Entity {
                 CurrentMovePoints = MovePoints;
                 activated = false;
             }
+
+            Debug.Log(CurrentHealth);
         }
-       
+
 
         if (CurrentHealth <= 0)
         {
@@ -144,7 +148,7 @@ public class Enemy : Entity {
         }
         else if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Turnbased)
         {
-            if(!activated && GetComponent<Rigidbody2D>().velocity != new Vector2(0,0))
+            if (!activated && GetComponent<Rigidbody2D>().velocity != new Vector2(0, 0))
             {
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 GetComponent<Rigidbody2D>().angularVelocity = 0f;
@@ -188,7 +192,7 @@ public class Enemy : Entity {
 
             }
         }
-        }
+    }
 
     /// <summary>
     /// If the Enemy is away from its original spawn position and far away from the Player, this method allow it to return to its spawn location.
@@ -206,7 +210,7 @@ public class Enemy : Entity {
     {
         if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
         {
-            if(meleeCDTimer <= 0)
+            if (meleeCDTimer <= 0)
             {
                 meleeCDTimer = meleeCD;
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().CurrentHealth -= 20;
@@ -215,7 +219,12 @@ public class Enemy : Entity {
         }
         else
         {
-            CurrentMovePoints -= 2;
+            if (CurrentMovePoints >= 2)
+            {
+                CurrentMovePoints -= 2;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().CurrentHealth -= 10;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().UpdateStats();
+            }
         }
     }
 }

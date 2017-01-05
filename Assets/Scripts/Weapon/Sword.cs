@@ -2,7 +2,8 @@
 using System.Collections;
 using System;
 
-public class Sword : Weapon {
+public class Sword : Weapon
+{
 
     void Start()
     {
@@ -13,7 +14,7 @@ public class Sword : Weapon {
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         Cooldown -= Time.deltaTime;
     }
@@ -25,9 +26,23 @@ public class Sword : Weapon {
 
     public override void Use(float _str, float _int, float _agi)
     {
-        if (Cooldown <= 0)
+        if (ActionMan.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
         {
-            Cooldown = 1;
+            if (Cooldown <= 0)
+            {
+                Cooldown = 1;
+                foreach (GameObject item in enemies)
+                {
+                    item.GetComponent<Enemy>().CurrentHealth -= _str;
+                    ActionPos = transform.position;
+                    ActionMan.GetComponent<ActionManager>().Attacked(item, this);
+
+                }
+            }
+            Debug.Log("Used Sword");
+        }
+        else
+        {
             foreach (GameObject item in enemies)
             {
                 item.GetComponent<Enemy>().CurrentHealth -= _str;
@@ -36,6 +51,5 @@ public class Sword : Weapon {
 
             }
         }
-        Debug.Log("Used Sword");
     }
 }

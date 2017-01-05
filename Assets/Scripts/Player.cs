@@ -4,9 +4,10 @@ using System.Collections;
 using System;
 using UnityEngine.SceneManagement;
 
-public class Player : Entity {
+public class Player : Entity
+{
 
-    enum Classes {Tank, Hunter, Mage}
+    enum Classes { Tank, Hunter, Mage }
 
     [SerializeField]
     private Camera playerCam;
@@ -47,7 +48,7 @@ public class Player : Entity {
     private Canvas canvas;
 
     public float CurrentMovePoints
-    { 
+    {
         get { return currentMovePoints; }
         set { currentMovePoints = value; }
     }
@@ -147,7 +148,7 @@ public class Player : Entity {
     #endregion
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         dropDown.onValueChanged.AddListener(delegate
         {
@@ -165,13 +166,13 @@ public class Player : Entity {
         ChangeAction();
         UpdateStats();
 
-        
-	}
 
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-        if(IsStunned == false)
+        if (IsStunned == false)
         {
             MenuKeyHandling();
             if (Input.GetKeyDown(KeyCode.P))
@@ -244,7 +245,7 @@ public class Player : Entity {
                 break;
         }
         UpdateStats();
-        
+
     }
 
     public void SetDropdownIndex(int index)
@@ -256,7 +257,7 @@ public class Player : Entity {
     /// Updates health and energy for the Player
     /// </summary>
     public void UpdateStats()
-    {      
+    {
         healthText.text = "Health : " + CurrentHealth + " / " + Health;
         classText.text = "Current Class: " + currentClass;
         switch (currentClass)
@@ -272,13 +273,13 @@ public class Player : Entity {
                 break;
             default:
                 break;
-        }  
+        }
     }
-    
-   /// <summary>
-   /// Update base stats for each class that the player can be
-   /// </summary>
-   /// 
+
+    /// <summary>
+    /// Update base stats for each class that the player can be
+    /// </summary>
+    /// 
 
     private void ClassTank()
     {
@@ -497,7 +498,7 @@ public class Player : Entity {
 
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             UseAbility();
         }
@@ -510,7 +511,7 @@ public class Player : Entity {
     /// </summary>
     private void MenuKeyHandling()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             canvas.enabled = true;
         }
@@ -556,7 +557,18 @@ public class Player : Entity {
 
         if (Input.GetMouseButtonDown(0))
         {
-            UseAction();
+            if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
+            {
+                UseAction();
+            }
+            else
+            {
+                if(CurrentMovePoints >= 2)
+                {
+                    UseAction();
+                    CurrentMovePoints -= 2;
+                }
+            }
         }
 
         //if (Input.GetKeyDown(KeyCode.J))
@@ -725,8 +737,8 @@ public class Player : Entity {
                     break;
             }
         }
-        
-        
+
+
     }
 
 
