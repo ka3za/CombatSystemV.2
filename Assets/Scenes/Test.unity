@@ -2281,8 +2281,6 @@ MonoBehaviour:
   currentMovePointsUI: {fileID: 1026180624}
   dropDown: {fileID: 1993205100}
   canvas: {fileID: 1340418142}
-  fireExplosionPrefab: {fileID: 1000010919675218, guid: f02798efe7192be45a303e52a8941578,
-    type: 2}
   Weapons:
   - {fileID: 1906050706566468, guid: 3f3b4c4051b8a404198df8851ebe2fed, type: 2}
   - {fileID: 1900601862546976, guid: 486a439d846071145be97eecd7bff078, type: 2}
