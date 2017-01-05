@@ -20,6 +20,9 @@ public class Enemy : Entity {
 
     private int movePoints = 10;
 
+    private float meleeCD;
+    private float meleeCDTimer;
+
     public bool Activated
     {
         get { return activated; }
@@ -71,6 +74,8 @@ public class Enemy : Entity {
         IsSlowed = false;
 
         IsStunned = false;
+
+        meleeCD = 1.5f;
 	
 	}
 	
@@ -128,7 +133,7 @@ public class Enemy : Entity {
     /// </summary>
     private void Movement()
     {
-
+        meleeCDTimer -= Time.deltaTime;
         if (CheckDistanceToPlayer(meleeRange))
         {
             Attack();
@@ -201,7 +206,12 @@ public class Enemy : Entity {
     {
         if (turnManager.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)
         {
-            //Debug.Log("PLAYER ATTACKED");
+            if(meleeCDTimer <= 0)
+            {
+                meleeCDTimer = meleeCD;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().CurrentHealth -= 20;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().UpdateStats();
+            }
         }
         else
         {

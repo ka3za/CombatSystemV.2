@@ -55,7 +55,7 @@ public class Player : Entity {
 
     private float diagonalNerf = 0.75f;
 
-
+    private float abilityCDTimer;
 
     #region ActionHandling
     [SerializeField]
@@ -335,6 +335,7 @@ public class Player : Entity {
     /// </summary>
     private void RealTimeMovement()
     {
+        abilityCDTimer -= Time.deltaTime;
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.left * MovementSpeed);
@@ -702,22 +703,29 @@ public class Player : Entity {
 
     private void UseAbility()
     {
-        Vector3 tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        switch (currentClass)
+        if (abilityCDTimer <= 0)
         {
-            case Classes.Hunter:
-                break;
-            case Classes.Mage:
-                tempPos.z = 0.1f;
-                break;
-            case Classes.Tank:
-                tempPos.z = 0.1f; 
-                 GameObject shieldBashPrefabTemp = Instantiate(Resources.Load("ShieldBashSprite") as GameObject, transform.position, Quaternion.identity) as GameObject;
-                shieldBashPrefabTemp.GetComponent<ShieldBass>().UpdateAction(strength);
-                break;
-            default:
-                break;
+            abilityCDTimer = 1;
+            Vector3 tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            switch (currentClass)
+            {
+                case Classes.Hunter:
+                    break;
+                case Classes.Mage:
+                    tempPos.z = 0.1f;
+                    GameObject fireExplosionPrefabTemp = Instantiate(Resources.Load("FireExplosionSprite") as GameObject, tempPos, Quaternion.identity) as GameObject;
+                    fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(strength);
+                    break;
+                case Classes.Tank:
+                    tempPos.z = 0.1f;
+                    GameObject shieldBashPrefabTemp = Instantiate(Resources.Load("ShieldBashSprite") as GameObject, transform.position, Quaternion.identity) as GameObject;
+                    shieldBashPrefabTemp.GetComponent<ShieldBass>().UpdateAction(strength);
+                    break;
+                default:
+                    break;
+            }
         }
+        
         
     }
 
