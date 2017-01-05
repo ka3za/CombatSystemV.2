@@ -775,11 +775,16 @@ public class Player : Entity
             {
                 moveCostText.text = "";
             }
+            if(CurrentMovePoints == 0)
+            {
+                moveCostText.text = "Press enter to end turn";
+            }
         }
         else
         {
             moveCostText.text = "";
         }
+
     }
 
     public void OnDrawGizmos()
