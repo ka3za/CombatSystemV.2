@@ -28,8 +28,8 @@ public class FireExplosion : Ability
         Cooldown = 5;
         AbilityCooldown = 3;
         Dmg = 1.5f * PrimaryStat;
-        DmgType = DamageType.DOT;
-        SecondDmgType = DamageType.SLOW;
+        DmgType = DamageType.SLOW;
+        SecondDmgType = DamageType.DOT;
         ActionPos = transform.position;
         IsAbility = true;
     }

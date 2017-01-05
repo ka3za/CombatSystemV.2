@@ -714,7 +714,7 @@ public class Player : Entity {
                 case Classes.Mage:
                     tempPos.z = 0.1f;
                     GameObject fireExplosionPrefabTemp = Instantiate(Resources.Load("FireExplosionSprite") as GameObject, tempPos, Quaternion.identity) as GameObject;
-                    fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(strength);
+                    fireExplosionPrefabTemp.GetComponent<FireExplosion>().UpdateAction(intellect);
                     break;
                 case Classes.Tank:
                     tempPos.z = 0.1f;
