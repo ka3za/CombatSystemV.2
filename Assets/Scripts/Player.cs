@@ -505,7 +505,7 @@ public class Player : Entity
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            UseAbility();
+           // UseAbility();
         }
 
         playerCam.GetComponent<Transform>().position = new Vector3(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y, -10);

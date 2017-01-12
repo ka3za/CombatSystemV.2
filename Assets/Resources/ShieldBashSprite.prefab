@@ -20,8 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4940064427625486}
   - component: {fileID: 212126486650551080}
-  - component: {fileID: 61697239015907094}
-  - component: {fileID: 114160005882344900}
   m_Layer: 0
   m_Name: ShieldBashSprite
   m_TagString: Untagged
@@ -42,31 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61697239015907094
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1699136576729322}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 0.96, y: 0.96}
---- !u!114 &114160005882344900
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1699136576729322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5c4c24a6cc16974db4dbdca51ad865d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212126486650551080
 SpriteRenderer:
   m_ObjectHideFlags: 1
