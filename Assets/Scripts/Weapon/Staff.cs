@@ -19,11 +19,6 @@ public class Staff : Weapon {
         Cooldown -= Time.deltaTime;
 	}
 
-    public void Attack()
-    {
-        
-    }
-
     private void MinorUpdate()
     {
         DotTimeTick = 3;

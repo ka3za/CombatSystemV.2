@@ -12,11 +12,11 @@ public class ShieldBass : Ability {
     // Update is called once per frame
     void Update ()
     {
-        TimeToDestroy -= Time.deltaTime;
-        if (TimeToDestroy <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        //TimeToDestroy -= Time.deltaTime;
+        //if (TimeToDestroy <= 0)
+        //{
+        //    gameObject.SetActive(false);
+        //}
     }
 
     public override void UpdateAction(int PrimaryStat)
@@ -55,11 +55,6 @@ public class ShieldBass : Ability {
             }
         }
 
-
-    }
-
-    public void Attack(int stamina, Vector2 playerPos, Vector2 mousePos)
-    {
 
     }
 

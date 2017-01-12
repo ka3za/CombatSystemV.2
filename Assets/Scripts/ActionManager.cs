@@ -63,7 +63,7 @@ public class ActionManager : MonoBehaviour {
             }
             else
             {
-                 Debug.Log("LIST IS EMPTY");
+                 //Debug.Log("LIST IS EMPTY");
             }
         }
         

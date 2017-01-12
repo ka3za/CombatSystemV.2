@@ -19,11 +19,6 @@ public class Sword : Weapon
         Cooldown -= Time.deltaTime;
     }
 
-    public void Attack(int strength)
-    {
-
-    }
-
     public override void Use(float _str, float _int, float _agi)
     {
         if (ActionMan.GetComponent<TurnManager>().CurrentCombatMode == TurnManager.CombatMode.Realtime)

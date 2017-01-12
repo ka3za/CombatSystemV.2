@@ -110,7 +110,7 @@ public class Enemy : Entity
                 activated = false;
             }
 
-            Debug.Log(CurrentHealth);
+            //Debug.Log(CurrentHealth);
         }
 
 

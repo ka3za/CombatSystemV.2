@@ -18,11 +18,6 @@ public class Bow : Weapon {
         Cooldown -= Time.deltaTime;
     }
 
-    public void Attack(int agility)
-    {
-
-    }
-
     private void MinorUpdate()
     {
         SlowTimer = 1;
