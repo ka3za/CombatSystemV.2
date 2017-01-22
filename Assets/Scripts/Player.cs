@@ -768,16 +768,16 @@ public class Player : Entity
             currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentMousePosition.z = 0;
             moveCost = Mathf.Ceil(Vector3.Distance(transform.position, currentMousePosition) * 2);
+            moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);
 
             if (Vector3.Distance(transform.position, currentMousePosition * 2) <= CurrentMovePoints)
             {
                 //Makes the moveCostText follow the mouse position if inside an area where the player has enough movepoints to move
-                moveCostText.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 20, Input.mousePosition.z);
                 moveCostText.text = "MP COST: " + moveCost;
             }
             else
             {
-                moveCostText.text = "";
+                moveCostText.text = "Not Enough MovePoints";
             }
             if(CurrentMovePoints == 0)
             {
@@ -794,13 +794,11 @@ public class Player : Entity
     public void OnDrawGizmos()
     {
 
-#if Unity_Editor
-            UnityEditor.Handles.color = Color.red;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, CurrentMovePoints / 2);
-#endif
-#if Unity_Editor
-                UnityEditor.Handles.DrawLine(transform.position, currentMousePosition);
-#endif  
+
+            //UnityEditor.Handles.color = Color.red;
+            //UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, CurrentMovePoints / 2);
+
+            //    UnityEditor.Handles.DrawLine(transform.position, currentMousePosition);
 
     }
 }

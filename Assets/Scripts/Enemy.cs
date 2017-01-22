@@ -120,6 +120,8 @@ public class Enemy : Entity
             transform.position = new Vector3(50000, 0);
             OnDeath();
         }
+
+        transform.GetChild(0).GetComponent<HealthBar>().CheckHealth(CurrentHealth);
     }
 
     /// <summary>
